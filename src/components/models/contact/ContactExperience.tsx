@@ -1,7 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-
-import Computer from "./Computer";
+import { ComputerDesk } from "./ComputerDesk";
 
 const ContactExperience = () => {
   return (
@@ -21,8 +20,8 @@ const ContactExperience = () => {
         </mesh>
       </group>
 
-      <group scale={0.03} position={[0, -1.49, -2]} castShadow>
-        <Computer />
+      <group scale={1} position={[0, -1.49, -2]} castShadow>
+        <ComputerDesk />
       </group>
     </Canvas>
   );

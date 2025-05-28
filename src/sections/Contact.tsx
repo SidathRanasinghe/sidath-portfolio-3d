@@ -2,7 +2,7 @@ import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "@/components/TitleHeader";
-import HeroExperience from "@/components/models/hero-models/HeroExperience";
+import ContactExperience from "@/components/models/contact/ContactExperience";
 
 interface FormData {
   name: string;
@@ -112,11 +112,8 @@ const Contact = () => {
             </div>
           </div>
           <div className="relative xl:col-span-7 min-h-96">
-            {/* <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
-              <ContactExperience />
-            </div> */}
             <div className="!size-full card-border w-full h-full hover:cursor-grab rounded-xl overflow-hidden">
-              <HeroExperience />
+              <ContactExperience />
             </div>
           </div>
         </div>

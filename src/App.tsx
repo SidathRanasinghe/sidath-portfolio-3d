@@ -1,4 +1,4 @@
-import BgBanner from "./components/common/banner/BgBanner";
+import BgBanner from "./components/models/bg-banner/BgBanner";
 import NavBar from "./components/NavBar";
 import Contact from "./sections/Contact";
 import Experience from "./sections/Experience";
