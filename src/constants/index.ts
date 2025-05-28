@@ -291,7 +291,7 @@ const techStackImgs: TechStackImg[] = [
 const techStackIcons: TechStackIcon[] = [
   {
     name: "React Developer",
-    modelPath: "/models/react_logo-transformed.glb",
+    modelPath: "/models/react.glb",
     scale: 1,
     rotation: [0, 0, 0],
     configs: {
@@ -301,7 +301,7 @@ const techStackIcons: TechStackIcon[] = [
   },
   {
     name: "Python Developer",
-    modelPath: "/models/python-transformed.glb",
+    modelPath: "/models/python.glb",
     scale: 0.8,
     rotation: [0, 0, 0],
     configs: {
@@ -311,7 +311,7 @@ const techStackIcons: TechStackIcon[] = [
   },
   {
     name: "Backend Developer",
-    modelPath: "/models/node-transformed.glb",
+    modelPath: "/models/node.glb",
     scale: 5,
     rotation: [0, -Math.PI / 2, 0],
     configs: {
@@ -321,7 +321,7 @@ const techStackIcons: TechStackIcon[] = [
   },
   {
     name: "Interactive Developer",
-    modelPath: "/models/three.js-transformed.glb",
+    modelPath: "/models/three.glb",
     scale: 0.05,
     rotation: [0, 0, 0],
     configs: {
@@ -331,7 +331,7 @@ const techStackIcons: TechStackIcon[] = [
   },
   {
     name: "Project Manager",
-    modelPath: "/models/git-svg-transformed.glb",
+    modelPath: "/models/git.glb",
     scale: 0.05,
     rotation: [0, -Math.PI / 4, 0],
     configs: {
