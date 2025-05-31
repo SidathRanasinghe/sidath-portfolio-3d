@@ -1,4 +1,4 @@
-import { socialImgs } from "@/constants";
+import { sectionConfigs, socialImgs } from "@/constants";
 
 const Footer = () => {
   return (
@@ -8,11 +8,12 @@ const Footer = () => {
           <p>Terms & Conditions</p>
         </div>
         <div className="socials">
-          {socialImgs.map((socialImg, index) => (
-            <div key={index} className="icon">
-              <img src={socialImg.imgPath} alt="social icon" />
-            </div>
-          ))}
+          {sectionConfigs.socialImgs &&
+            socialImgs.map((socialImg, index) => (
+              <div key={index} className="icon">
+                <img src={socialImg.imgPath} alt="social icon" />
+              </div>
+            ))}
         </div>
         <div className="flex flex-col justify-center">
           <p className="text-center md:text-end">

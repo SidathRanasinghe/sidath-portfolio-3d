@@ -9,6 +9,7 @@ import ShowcaseSection from "./sections/ShowcaseSection";
 import TechStack from "./sections/TechStack";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./sections/Footer";
+import { sectionConfigs } from "./constants";
 
 const App = () => {
   return (
@@ -17,12 +18,12 @@ const App = () => {
       <div className="size-full overflow-auto z-[1]">
         <NavBar />
         <Hero />
-        <ShowcaseSection />
-        <LogoShowcase />
-        <FeatureCards />
-        <Experience />
-        <TechStack />
-        <Testimonials />
+        {sectionConfigs.projectsShowCase && <ShowcaseSection />}
+        {sectionConfigs.companiesLogoRow && <LogoShowcase />}
+        {sectionConfigs.abilities && <FeatureCards />}
+        {sectionConfigs.experience && <Experience />}
+        {(sectionConfigs.techStackIcons || sectionConfigs.techStackImgs) && <TechStack />}
+        {sectionConfigs.testimonials && <Testimonials />}
         <Contact />
         <Footer />
       </div>
@@ -31,4 +32,3 @@ const App = () => {
 };
 
 export default App;
-
