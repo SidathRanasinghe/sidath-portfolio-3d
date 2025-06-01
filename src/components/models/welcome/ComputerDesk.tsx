@@ -33,7 +33,16 @@ export function ComputerDesk(props: JSX.IntrinsicElements["group"]) {
   }, []);
 
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} castShadow>
+      <directionalLight
+        position={[-1.5, -5, -5]}
+        intensity={5}
+        color="#fff8dc"
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        castShadow
+      />
+
       {/* Monitor screen light */}
       <pointLight
         position={[0.548, 1.3, 0.1]} // Positioned in front of the monitor
@@ -47,12 +56,12 @@ export function ComputerDesk(props: JSX.IntrinsicElements["group"]) {
       {/* Desk lamp light */}
       <spotLight
         ref={spotLightRef}
-        position={[-1.2, 1.58, 0.5]}
+        position={[-1.2, 1.4, -0.1]}
         color="#fff8dc"
         intensity={5}
         angle={Math.PI / 4}
         penumbra={0.15}
-        distance={10}
+        distance={100}
         decay={2}
         castShadow
       />

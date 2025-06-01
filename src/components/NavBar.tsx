@@ -24,10 +24,9 @@ const NavBar = () => {
   return (
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
-        <div className="flex justify-center items-center rounded ring-1 ring-inset ring-white-50 py-0 px-2 hover:scale-105 hover:translate-x-0.5">
-          <a href="#hero" className="logo flex justify-center items-baseline">
-            <span className="text-inherit">S</span>
-            <span className="text-inherit text-[1rem]">R</span>
+        <div className="h-12 w-fit flex justify-center items-center p-0 hover:scale-105 hover:translate-x-0.5">
+          <a href="#hero" className="size-full logo flex justify-center items-baseline">
+            <img src="/images/logos/sidath.io.2.png" alt="logo" className="size-full" />
           </a>
         </div>
 

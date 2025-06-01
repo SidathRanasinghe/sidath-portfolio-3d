@@ -40,10 +40,10 @@ const navLinks: NavLink[] = [
     name: "Skills",
     link: "#skills",
   },
-  {
-    name: "Testimonials",
-    link: "#testimonials",
-  },
+  // {
+  //   name: "Testimonials",
+  //   link: "#testimonials",
+  // },
 ];
 
 const heroTitles: HeroTitle[] = [
@@ -105,64 +105,24 @@ const counterItems: CounterItem[] = [
 
 const logoIconsList: LogoIcon[] = [
   {
-    imgPath: "/images/logos/company-logo-1.png",
-    name: "company_logo_1",
-  },
-  {
-    imgPath: "/images/logos/company-logo-2.png",
-    name: "company_logo_2",
-  },
-  {
-    imgPath: "/images/logos/company-logo-3.png",
-    name: "company_logo_3",
-  },
-  {
-    imgPath: "/images/logos/company-logo-4.png",
-    name: "company_logo_4",
-  },
-  {
-    imgPath: "/images/logos/company-logo-5.png",
-    name: "company_logo_5",
-  },
-  {
-    imgPath: "/images/logos/company-logo-6.png",
-    name: "company_logo_6",
-  },
-  {
-    imgPath: "/images/logos/company-logo-7.png",
-    name: "company_logo_7",
-  },
-  {
-    imgPath: "/images/logos/company-logo-8.png",
-    name: "company_logo_8",
-  },
-  {
-    imgPath: "/images/logos/company-logo-9.png",
-    name: "company_logo_9",
-  },
-  {
-    imgPath: "/images/logos/company-logo-10.png",
-    name: "company_logo_10",
-  },
-  {
-    imgPath: "/images/logos/company-logo-11.png",
-    name: "company_logo_11",
+    imgPath: "/images/company/shopify_logo.png",
+    name: "shopify_logo",
   },
 ];
 
 const abilities: Ability[] = [
   {
-    imgPath: "/images/seo.png",
+    imgPath: "/images/icons/seo.png",
     title: "Quality Focus",
     desc: "Delivering high-quality results while maintaining attention to every detail.",
   },
   {
-    imgPath: "/images/chat.png",
+    imgPath: "/images/icons/chat.png",
     title: "Reliable Communication",
     desc: "Keeping you updated at every step to ensure transparency and clarity.",
   },
   {
-    imgPath: "/images/time.png",
+    imgPath: "/images/icons/time.png",
     title: "On-Time Delivery",
     desc: "Making sure projects are completed on schedule, with quality & attention to detail.",
   },
@@ -171,53 +131,86 @@ const abilities: Ability[] = [
 const techStackImgs: TechStackImg[] = [
   {
     name: "React Developer",
-    imgPath: "/images/logos/react.png",
+    imgPath: "/images/tech-logos/react.png",
   },
   {
     name: "Python Developer",
-    imgPath: "/images/logos/python.svg",
+    imgPath: "/images/tech-logos/python.svg",
   },
   {
     name: "Backend Developer",
-    imgPath: "/images/logos/node.png",
+    imgPath: "/images/tech-logos/node.png",
   },
   {
     name: "Interactive Developer",
-    imgPath: "/images/logos/three.png",
+    imgPath: "/images/tech-logos/three.png",
   },
   {
     name: "Project Manager",
-    imgPath: "/images/logos/git.svg",
+    imgPath: "/images/tech-logos/git.svg",
   },
 ];
 
 const techStackIcons: TechStackIcon[] = [
   {
-    name: "React Developer",
+    id: "REACT",
+    name: "React",
     modelPath: "/models/react.glb",
     scale: 1,
     rotation: [0, 0, 0],
   },
   {
-    name: "Python Developer",
-    modelPath: "/models/python.glb",
-    scale: 0.8,
+    id: "NEXT",
+    name: "Next.js",
+    modelPath: "/models/nextjs.glb",
+    scale: 0.05,
     rotation: [0, 0, 0],
   },
   {
-    name: "Backend Developer",
+    id: "ANGULAR",
+    name: "AngularJS | Angular (2+)",
+    modelPath: "/models/angular.glb",
+    scale: 0.01,
+    rotation: [0, 0, 0],
+  },
+  {
+    id: "TAILWIND",
+    name: "TailwindCSS",
+    modelPath: "/models/tailwindcss.glb",
+    scale: 0.12,
+    rotation: [0, 0, 0],
+  },
+  {
+    id: "NODE",
+    name: "Node.js",
     modelPath: "/models/node.glb",
     scale: 5,
     rotation: [0, -Math.PI / 2, 0],
   },
+  // {
+  //   id: "PYTHON",
+  //   name: "Python",
+  //   modelPath: "/models/python.glb",
+  //   scale: 0.8,
+  //   rotation: [0, 0, 0],
+  // },
   {
-    name: "Interactive Developer",
+    id: "D3",
+    name: "D3.js",
+    modelPath: "/models/d3.glb",
+    scale: 0.05,
+    rotation: [0, 0, 0],
+  },
+  {
+    id: "THREE",
+    name: "Three.js",
     modelPath: "/models/three.glb",
     scale: 0.05,
     rotation: [0, 0, 0],
   },
   {
-    name: "Project Manager",
+    id: "VCS",
+    name: "Version Control",
     modelPath: "/models/git.glb",
     scale: 0.05,
     rotation: [0, -Math.PI / 4, 0],
@@ -228,8 +221,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Led front-end development initiatives across multiple high-value client projects, establishing architectural standards, and mentoring junior team members.",
-    imgPath: "/images/exp1.png",
-    logoPath: "/images/logo1.png",
+    imgPath: "/images/experience/simato.png",
+    logoPath: "/images/experience/appmaker.svg",
     title: "Senior Software Engineer",
     company: "FocalId Technologies (Pvt.) Ltd.",
     date: "November 2024 - May 2025",
@@ -242,8 +235,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Collaborated with cross-functional teams to deliver responsive, high-performance frontend solutions while contributing to codebase improvements.",
-    imgPath: "/images/exp2.png",
-    logoPath: "/images/logo2.png",
+    imgPath: "/images/experience/simato.png",
+    logoPath: "/images/experience/appmaker.svg",
     title: "Software Engineer",
     company: "FocalId Technologies (Pvt.) Ltd.",
     date: "June 2024 - November 2024",
@@ -257,8 +250,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Delivered full-stack solutions for client projects with a focus on scalable architecture and innovative features.",
-    imgPath: "/images/exp3.png",
-    logoPath: "/images/logo3.png",
+    imgPath: "/images/experience/simato.png",
+    logoPath: "/images/experience/appmaker.svg",
     title: "Software Engineer",
     company: "Simato Solutions (Pvt.) Ltd.",
     date: "June 2022 - June 2024",
@@ -274,8 +267,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Extended due to exceptional performance. Supported development teams across multiple client projects.",
-    imgPath: "/images/exp3.png",
-    logoPath: "/images/logo3.png",
+    imgPath: "/images/experience/simato.png",
+    logoPath: "/images/experience/appmaker.svg",
     title: "Software Engineer Intern",
     company: "Simato Solutions (Pvt.) Ltd.",
     date: "July 2020 - July 2021",
@@ -292,62 +285,58 @@ const testimonials: Testimonial[] = [
     name: "Esther Howard",
     mentions: "@estherhoward",
     review:
-      "I can’t say enough good things about Adrian. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.",
-    imgPath: "/images/client1.png",
+      "I can’t say enough good things about Sidath. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.",
+    imgPath: "/images/person/client1.png",
   },
   {
     name: "Wade Warren",
     mentions: "@wadewarren",
     review:
-      "Working with Adrian was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.",
-    imgPath: "/images/client3.png",
+      "Working with Sidath was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.",
+    imgPath: "/images/person/client1.png",
   },
   {
     name: "Guy Hawkins",
     mentions: "@guyhawkins",
     review:
-      "Collaborating with Adrian was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Adrian's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Adrian is the ideal partner.",
-    imgPath: "/images/client2.png",
+      "Collaborating with Sidath was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Sidath's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Sidath is the ideal partner.",
+    imgPath: "/images/person/client1.png",
   },
   {
     name: "Marvin McKinney",
     mentions: "@marvinmckinney",
     review:
-      "Adrian was a pleasure to work with. He turned our outdated website into a fresh, intuitive platform that’s both modern and easy to navigate. Fantastic work overall.",
-    imgPath: "/images/client5.png",
+      "Sidath was a pleasure to work with. He turned our outdated website into a fresh, intuitive platform that’s both modern and easy to navigate. Fantastic work overall.",
+    imgPath: "/images/person/client1.png",
   },
   {
     name: "Floyd Miles",
     mentions: "@floydmiles",
     review:
       "Adrian’s expertise in web development is truly impressive. He delivered a robust and scalable solution for our e-commerce site, and our online sales have significantly increased since the launch. He’s a true professional!",
-    imgPath: "/images/client4.png",
+    imgPath: "/images/person/client1.png",
   },
   {
     name: "Albert Flores",
     mentions: "@albertflores",
     review:
-      "Adrian was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend and backend dev are top-notch.",
-    imgPath: "/images/client6.png",
+      "Sidath was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend and backend dev are top-notch.",
+    imgPath: "/images/person/client1.png",
   },
 ];
 
 const socialImgs: SocialImg[] = [
   {
     name: "insta",
-    imgPath: "/images/insta.png",
+    imgPath: "/images/social-media/insta.png",
   },
   {
     name: "fb",
-    imgPath: "/images/fb.png",
-  },
-  {
-    name: "x",
-    imgPath: "/images/x.png",
+    imgPath: "/images/social-media/fb.png",
   },
   {
     name: "linkedin",
-    imgPath: "/images/linkedin.png",
+    imgPath: "/images/social-media/linkedin.png",
   },
 ];
 

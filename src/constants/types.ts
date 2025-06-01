@@ -46,10 +46,11 @@ export type TechStackImg = {
 };
 
 export type TechStackIcon = {
+  id: string;
   name: string;
   modelPath: string;
   scale: number;
-  rotation: number[];
+  rotation: [number, number, number];
 };
 
 export type ExpCard = {
