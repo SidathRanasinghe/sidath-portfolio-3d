@@ -12,7 +12,7 @@ const TechIconCardExperience = ({ model }: TechIconCardExperienceProps) => {
   const scene = useGLTF(model.modelPath);
 
   useEffect(() => {
-    if (model.name === "Interactive Developer") {
+    if (model.id === "THREE") {
       scene.scene.traverse(child => {
         if (child instanceof THREE.Mesh) {
           if (child.name === "Object_5") {
@@ -21,17 +21,14 @@ const TechIconCardExperience = ({ model }: TechIconCardExperienceProps) => {
         }
       });
     }
-  }, [scene, model.name]);
+  }, [scene, model.id]);
 
   return (
     <Canvas>
-      <ambientLight intensity={0.3} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <spotLight position={[10, 15, 10]} angle={0.3} penumbra={1} intensity={2} />
-      {model.id === "NEXT" && (
-        <directionalLight position={[-3, -2, 2]} intensity={10} color="#ffffff" />
-      )}
-      <Environment preset="city" />
+      <ambientLight intensity={0.5} castShadow />
+      <directionalLight position={[0, 0, 5]} intensity={0.5} color="#ffffff" castShadow />
+      <spotLight position={[5, 5, 5]} angle={0.3} penumbra={1} intensity={10} castShadow />
+      <Environment preset="sunset" />
 
       {/* 
         The Float component from @react-three/drei is used to 
@@ -51,7 +48,7 @@ const TechIconCardExperience = ({ model }: TechIconCardExperienceProps) => {
         that make up the 3D model.
       */}
       <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
-        <group scale={model.scale} rotation={model.rotation}>
+        <group scale={model.scale} rotation={model.rotation} position={model.position}>
           <primitive object={scene.scene} />
         </group>
       </Float>

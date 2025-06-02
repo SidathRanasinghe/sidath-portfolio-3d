@@ -51,6 +51,7 @@ export type TechStackIcon = {
   modelPath: string;
   scale: number;
   rotation: [number, number, number];
+  position?: [number, number, number];
 };
 
 export type ExpCard = {
