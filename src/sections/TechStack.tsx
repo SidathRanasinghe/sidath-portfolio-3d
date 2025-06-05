@@ -1,34 +1,54 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { Canvas } from "@react-three/fiber";
+import { useMemo } from "react";
 
 import TitleHeader from "@/components/TitleHeader";
-import TechIconCardExperience from "@/components/models/tech-logos/TechIconCardExperience";
+import TechIconGridExperience from "@/components/models/tech-logos/TechIconGridExperience";
 import { sectionConfigs, techStackIcons } from "@/constants";
 
 const TechStack = () => {
-  // Animate the tech cards in the skills section
+  // Calculate responsive canvas height based on model count
+  const canvasHeight = useMemo(() => {
+    const modelCount = techStackIcons.length;
+    const baseHeight = 500;
+    const heightPerRow = 280; // Increased for virtual box layout
+
+    // Estimate columns based on screen width
+    let estimatedColumns = 4;
+    if (typeof window !== "undefined") {
+      const width = window.innerWidth;
+      if (width < 640) estimatedColumns = 2;
+      else if (width < 768) estimatedColumns = 3;
+      else if (width < 1024) estimatedColumns = 4;
+      else if (width < 1280) estimatedColumns = 5;
+      else estimatedColumns = 6;
+    }
+
+    const rows = Math.ceil(modelCount / estimatedColumns);
+    const calculatedHeight = Math.max(
+      baseHeight,
+      Math.min(1200, baseHeight + (rows - 1) * heightPerRow)
+    );
+    return calculatedHeight;
+  }, []);
+
+  // Animate the tech stack section
   useGSAP(() => {
-    // This animation is triggered when the user scrolls to the #skills wrapper
-    // The animation starts when the top of the wrapper is at the center of the screen
-    // The animation is staggered, meaning each card will animate in sequence
-    // The animation ease is set to "power2.inOut", which is a slow-in fast-out ease
     gsap.fromTo(
-      ".tech-card",
+      ".tech-canvas-container",
       {
-        // Initial values
-        y: 50, // Move the cards down by 50px
-        opacity: 0, // Set the opacity to 0
+        y: 50,
+        opacity: 0,
       },
       {
-        // Final values
-        y: 0, // Move the cards back to the top
-        opacity: 1, // Set the opacity to 1
-        duration: 1, // Duration of the animation
-        ease: "power2.inOut", // Ease of the animation
-        stagger: 0.2, // Stagger the animation by 0.2 seconds
+        y: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.inOut",
         scrollTrigger: {
-          trigger: "#skills", // Trigger the animation when the user scrolls to the #skills wrapper
-          start: "top center", // Start the animation when the top of the wrapper is at the center of the screen
+          trigger: "#skills",
+          start: "top center",
         },
       }
     );
@@ -41,31 +61,34 @@ const TechStack = () => {
           title="How I Can Contribute & My Key Skills"
           sub="🤝 What I Bring to the Table"
         />
-        <div className="tech-grid">
-          {/* Loop through the techStackIcons array and create a component for each item. 
-              The key is set to the name of the tech stack icon, and the classnames are set to card-border, tech-card, overflow-hidden, and group. The xl:rounded-full and rounded-lg classes are only applied on larger screens. */}
-          {sectionConfigs.techStackIcons &&
-            techStackIcons.map(techStackIcon => (
-              <div
-                key={techStackIcon.name}
-                className="group tech-card card-border rounded-lg overflow-hidden"
-              >
-                {/* The tech-card-animated-bg div is used to create a background animation when the component is hovered. */}
-                <div className="tech-card-animated-bg" />
-                <div className="tech-card-content">
-                  {/* The tech-icon-wrapper div contains the TechIconCardExperience component,which renders the 3D model of the tech stack icon. */}
-                  <div className="tech-icon-wrapper">
-                    <TechIconCardExperience model={techStackIcon} />
-                  </div>
-                  {/* The padding-x and w-full classes are used to add horizontal padding to the text and make it take up the full width of the component. */}
-                  <div className="w-full lg:pt-2.5 lg:pb-5 xl:pt-2.5 xl:pb-8">
-                    {/* The p tag contains the name of the tech stack icon. */}
-                    <p>{techStackIcon.name}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+
+        {sectionConfigs.techStackIcons && (
+          <div
+            className="tech-canvas-container mt-32 w-full rounded-lg overflow-hidden card-border relative"
+            style={{ height: `${canvasHeight}px` }}
+          >
+            <Canvas
+              camera={{
+                position: [0, 0, 15],
+                fov: 45,
+                near: 0.01,
+                far: 1000,
+              }}
+              style={{ background: "transparent" }}
+              gl={{
+                antialias: true,
+                alpha: true,
+                powerPreference: "high-performance",
+              }}
+            >
+              <TechIconGridExperience
+                models={techStackIcons}
+                containerWidth={1200}
+                containerHeight={canvasHeight}
+              />
+            </Canvas>
+          </div>
+        )}
       </div>
     </div>
   );

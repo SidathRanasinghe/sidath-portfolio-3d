@@ -6,10 +6,10 @@ import FeatureCards from "./sections/FeatureCards";
 import Hero from "./sections/Hero";
 import LogoShowcase from "./sections/LogoShowcase";
 import ShowcaseSection from "./sections/ShowcaseSection";
-import TechStack from "./sections/TechStack";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./sections/Footer";
 import { sectionConfigs } from "./constants";
+import TechStack from "./sections/TechStack";
 
 const App = () => {
   return (
