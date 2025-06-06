@@ -18,10 +18,15 @@ const TechStack = () => {
     let estimatedColumns = 4;
     if (typeof window !== "undefined") {
       const width = window.innerWidth;
-      if (width < 640) estimatedColumns = 2;
+      if (width < 480) estimatedColumns = 1;
+      else if (width < 640) estimatedColumns = 2;
       else if (width < 768) estimatedColumns = 3;
-      else if (width < 1024) estimatedColumns = 4;
-      else if (width < 1280) estimatedColumns = 5;
+      else if (width < 1024) estimatedColumns = 3;
+      else if (width < 1280) estimatedColumns = 4;
+      else if (width < 1366) estimatedColumns = 4;
+      else if (width < 1440) estimatedColumns = 4;
+      else if (width < 1680) estimatedColumns = 5;
+      else if (width < 1920) estimatedColumns = 6;
       else estimatedColumns = 6;
     }
 

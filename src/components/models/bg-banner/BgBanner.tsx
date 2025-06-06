@@ -20,10 +20,10 @@ const RealisticSpaceScene = () => {
 
       {/* orbiting asteroids using 3D models */}
       <OrbitingAsteroid
-        center={[-28, 0, -90]}
+        center={[0, 0, -52]}
         radiusX={52}
-        radiusZ={72}
-        speed={0.0005}
+        radiusZ={42}
+        speed={0.005}
         baseSize={1}
         AsteroidComponent={AsteroidSmall}
       />

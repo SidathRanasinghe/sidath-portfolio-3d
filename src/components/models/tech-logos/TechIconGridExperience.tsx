@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Environment, useGLTF, Text, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -159,6 +159,7 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
   const virtualBoxHeight = useMemo(() => {
     const screenWidth = size.width;
 
+    if (screenWidth < 480) return 4; // Mobile
     if (screenWidth < 640) return 6; // Mobile
     if (screenWidth < 768) return 7; // Small tablet
     if (screenWidth < 1024) return 8; // Tablet
@@ -166,13 +167,95 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
     return 10; // Large desktop
   }, [size.width]);
 
-  // Calculate responsive grid layout
+  // Helper function to calculate responsive horizontal spacing
+  const calculateResponsiveSpacingX = useCallback(
+    (screenWidth: number, boxHeight: number, columns: number) => {
+      // Define spacing configuration for different screen sizes
+      const spacingConfig = {
+        mini: {
+          baseRatio: 0.5,
+          minSpacing: boxHeight * 0.25,
+          maxSpacing: boxHeight * 0.5,
+          paddingRatio: 0.02, // 2% padding on mobile
+        },
+        mobile: {
+          baseRatio: 0.65,
+          minSpacing: boxHeight * 0.4,
+          maxSpacing: boxHeight * 0.8,
+          paddingRatio: 0.05, // 5% padding on mobile
+        },
+        smallTablet: {
+          baseRatio: 0.75,
+          minSpacing: boxHeight * 0.5,
+          maxSpacing: boxHeight * 0.9,
+          paddingRatio: 0.08, // 8% padding on small tablet
+        },
+        tablet: {
+          baseRatio: 0.85,
+          minSpacing: boxHeight * 0.6,
+          maxSpacing: boxHeight * 1.0,
+          paddingRatio: 0.1, // 10% padding on tablet
+        },
+        desktop: {
+          baseRatio: 0.95,
+          minSpacing: boxHeight * 0.7,
+          maxSpacing: boxHeight * 1.2,
+          paddingRatio: 0.12, // 12% padding on desktop
+        },
+        large: {
+          baseRatio: 1.0,
+          minSpacing: boxHeight * 0.8,
+          maxSpacing: boxHeight * 1.4,
+          paddingRatio: 0.15, // 15% padding on large screens
+        },
+      };
+
+      // Select appropriate config based on screen width
+      let config;
+      if (screenWidth < 480) {
+        config = spacingConfig.mini;
+      } else if (screenWidth < 640) {
+        config = spacingConfig.mobile;
+      } else if (screenWidth < 768) {
+        config = spacingConfig.smallTablet;
+      } else if (screenWidth < 1024) {
+        config = spacingConfig.tablet;
+      } else if (screenWidth < 1280) {
+        config = spacingConfig.desktop;
+      } else {
+        config = spacingConfig.large;
+      }
+
+      // Calculate available width after accounting for container padding
+      const containerPadding = screenWidth * config.paddingRatio * 2; // Both sides
+      const availableWidth = screenWidth - containerPadding;
+
+      // Estimate space needed for virtual boxes (models occupy roughly 60% of box height in width)
+      const estimatedBoxWidth = boxHeight * 0.6;
+      const totalBoxWidth = columns * estimatedBoxWidth;
+
+      // Calculate optimal spacing based on remaining space
+      const remainingSpace = Math.max(0, availableWidth - totalBoxWidth);
+      const optimalSpacing = columns > 1 ? remainingSpace / (columns - 1) : boxHeight;
+
+      // Apply base ratio and clamp between min and max values
+      const calculatedSpacing = optimalSpacing * config.baseRatio;
+
+      return Math.max(config.minSpacing, Math.min(config.maxSpacing, calculatedSpacing));
+    },
+    []
+  );
+
+  // Calculate responsive grid layout with viewport-aware spacing
   const gridConfig = useMemo(() => {
     let columns: number;
     const screenWidth = size.width;
+    console.log("screenWidth : ", screenWidth);
 
     // Responsive column calculation
-    if (screenWidth < 640) {
+    if (screenWidth < 480) {
+      columns = Math.min(1, models.length);
+    } else if (screenWidth < 640) {
       columns = Math.min(2, models.length);
     } else if (screenWidth < 768) {
       columns = Math.min(3, models.length);
@@ -186,12 +269,12 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
 
     const rows = Math.ceil(models.length / columns);
 
-    // Spacing based on virtual box height
-    const spacingX = virtualBoxHeight * 0.8;
-    const spacingY = virtualBoxHeight;
+    // Calculate responsive spacing
+    const spacingX = calculateResponsiveSpacingX(screenWidth, virtualBoxHeight, columns);
+    const spacingY = virtualBoxHeight * 1.1; // Slightly more vertical spacing
 
     return { columns, rows, spacingX, spacingY };
-  }, [models.length, size.width, virtualBoxHeight]);
+  }, [models.length, size.width, virtualBoxHeight, calculateResponsiveSpacingX]);
 
   // Calculate grid positions
   const getGridPosition = (index: number): [number, number, number] => {
@@ -218,8 +301,16 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       const gridHeight = (rows - 1) * spacingY;
       const maxDimension = Math.max(gridWidth, gridHeight);
 
-      // Calculate camera distance based on grid size
-      const cameraDistance = Math.max(15, maxDimension * 0.8 + 10);
+      // Calculate camera distance based on grid size with improved formula
+      const baseCameraDistance = Math.max(15, maxDimension * 0.7 + 8);
+
+      // Adjust camera distance based on screen size for better framing
+      let cameraDistanceMultiplier = 1;
+      if (size.width < 480) cameraDistanceMultiplier = 1.25; // Move back on mobile
+      if (size.width < 640) cameraDistanceMultiplier = 1.2; // Move back on mobile
+      else if (size.width < 1024) cameraDistanceMultiplier = 1.1; // Slightly back on tablet
+
+      const cameraDistance = baseCameraDistance * cameraDistanceMultiplier;
 
       // Store initial position and rotation
       initialCameraPosition.current.set(0, 0, cameraDistance);
@@ -229,17 +320,29 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       camera.rotation.copy(initialCameraRotation.current);
       camera.lookAt(0, 0, 0);
 
-      // Update camera projection
+      // Update camera projection with responsive FOV
       if (camera instanceof THREE.PerspectiveCamera) {
-        const fov = Math.max(40, Math.min(65, maxDimension * 4 + 40));
+        let fov = 45; // Default FOV
+
+        // Adjust FOV based on screen size and grid dimensions
+        if (size.width < 480) {
+          fov = Math.max(55, Math.min(75, maxDimension * 3.5 + 50)); // Wider FOV on mini mobile
+        } else if (size.width < 640) {
+          fov = Math.max(50, Math.min(70, maxDimension * 3 + 45)); // Wider FOV on mobile
+        } else if (size.width < 1024) {
+          fov = Math.max(45, Math.min(65, maxDimension * 2.5 + 40)); // Moderate FOV on tablet
+        } else {
+          fov = Math.max(40, Math.min(60, maxDimension * 2 + 35)); // Narrower FOV on desktop
+        }
+
         camera.fov = fov;
         camera.updateProjectionMatrix();
       }
     }
-  }, [camera, gridConfig, models.length]);
+  }, [camera, gridConfig, models.length, size.width]);
 
   // Reset camera to initial position with animation
-  const resetCamera = () => {
+  const resetCamera = useCallback(() => {
     if (camera && controlsRef.current && !isResettingRef.current) {
       isResettingRef.current = true;
       const controls = controlsRef.current;
@@ -293,7 +396,7 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
         );
       }
     }
-  };
+  }, [camera]);
 
   // Handle interaction detection
   useEffect(() => {
@@ -383,21 +486,21 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
         );
       })}
 
-      {/* OrbitControls with ref */}
+      {/* OrbitControls with responsive settings */}
       <OrbitControls
         ref={controlsRef}
         enableZoom={true}
         enablePan={true}
         enableRotate={true}
-        maxDistance={35}
+        maxDistance={45}
         minDistance={6}
         enableDamping={true}
         dampingFactor={0.08}
         maxPolarAngle={Math.PI / 1.3}
         minPolarAngle={Math.PI / 8}
-        rotateSpeed={0.8}
-        zoomSpeed={1.2}
-        panSpeed={0.8}
+        rotateSpeed={size.width < 768 ? 0.6 : 0.8} // Slower rotation on mobile
+        zoomSpeed={size.width < 768 ? 1.0 : 1.2}
+        panSpeed={size.width < 768 ? 0.6 : 0.8}
       />
     </group>
   );
