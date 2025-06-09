@@ -50,16 +50,16 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative flex-center section-padding z-10">
-      <div className="w-full h-full md:px-10 px-5">
+    <section id="contact" className="flex-center section-padding relative z-10">
+      <div className="h-full w-full px-5 md:px-10">
         <TitleHeader
           title="Get in Touch – Let's Connect"
           sub="💬 Have questions or ideas? Let's talk! 🚀"
         />
-        <div className="grid-12-cols mt-16">
+        <div className="grid-12-cols mt-16 xl:gap-0">
           <div className="xl:col-span-5">
             <div className="flex-center card-border rounded-xl p-10">
-              <form ref={formRef} onSubmit={handleSubmit} className="w-full flex flex-col gap-7">
+              <form ref={formRef} onSubmit={handleSubmit} className="flex w-full flex-col gap-7">
                 <div>
                   <label htmlFor="name">Your name</label>
                   <input
@@ -68,7 +68,7 @@ const Contact = () => {
                     name="name"
                     value={form.name}
                     onChange={handleChange}
-                    placeholder="What's your good name?"
+                    placeholder="What's your name?"
                     required
                   />
                 </div>
@@ -104,15 +104,15 @@ const Contact = () => {
                     <div className="bg-circle" />
                     <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                     <div className="arrow-wrapper">
-                      <img src="/images/arrow-down.svg" alt="arrow" />
+                      <img src="/images/icons/arrow-down.svg" alt="arrow" />
                     </div>
                   </div>
                 </button>
               </form>
             </div>
           </div>
-          <div className="relative xl:col-span-7 min-h-96">
-            <div className="!size-full card-border w-full h-full hover:cursor-grab rounded-xl overflow-hidden">
+          <div className="relative min-h-96 xl:col-span-7">
+            <div className="!size-full h-full w-full rounded-xl hover:cursor-grab xl:rounded-none">
               <ContactExperience />
             </div>
           </div>

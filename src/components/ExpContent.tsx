@@ -7,10 +7,10 @@ type ExpContentProps = {
 const ExpContent = ({ expContent }: ExpContentProps) => {
   return (
     <div className="card-border rounded-xl p-10">
-      <h1 className="font-semibold text-3xl">{expContent.title}</h1>
+      <h1 className="text-3xl font-semibold">{expContent.title}</h1>
       <p>{expContent.date}</p>
       <p className="text-white-50">Responsibilities</p>
-      <ul className="list-disc ms-5 text-white-50">
+      <ul className="text-white-50 ms-5 list-disc">
         {expContent.responsibilities.map((responsibility, index) => (
           <li key={index}>{responsibility}</li>
         ))}

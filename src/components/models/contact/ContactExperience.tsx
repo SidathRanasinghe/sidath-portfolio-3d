@@ -1,27 +1,41 @@
-import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { ComputerDesk } from "./ComputerDesk";
+import { useMediaQuery } from "react-responsive";
+import { OrbitControls } from "@react-three/drei";
+import SceneLighting from "./SceneLighting";
+import { Programmer } from "./Programmer";
 
 const ContactExperience = () => {
+  const isTablet: boolean = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isMobile: boolean = useMediaQuery({ query: "(max-width: 768px)" });
+
   return (
-    <Canvas shadows camera={{ position: [0, 3, 7], fov: 45 }}>
-      <ambientLight intensity={0.5} color="#fff4e6" />
-
-      <directionalLight position={[5, 5, 3]} intensity={2.5} color="#ffd9b3" />
-
-      <directionalLight position={[5, 9, 1]} castShadow intensity={2.5} color="#ffd9b3" />
-
-      <OrbitControls enableZoom={false} minPolarAngle={Math.PI / 5} maxPolarAngle={Math.PI / 2} />
-
-      <group scale={[1, 1, 1]}>
-        <mesh receiveShadow position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[30, 30]} />
-          <meshStandardMaterial color="#a46b2d" />
-        </mesh>
-      </group>
-
-      <group scale={1} position={[0, -1.49, -2]} castShadow>
-        <ComputerDesk />
+    <Canvas
+      camera={{
+        position: [-6, 4, 8],
+        // rotation: [0.2, 0, 0],
+        fov: 50,
+      }}
+      performance={{ min: 0.5 }}
+      dpr={[1, 2]}
+      shadows
+    >
+      <OrbitControls
+        enablePan={false}
+        enableZoom={!isTablet}
+        maxDistance={30}
+        minDistance={1}
+        maxPolarAngle={Math.PI / 1.1}
+        minPolarAngle={Math.PI / 8}
+        enableDamping={true}
+        dampingFactor={0.05}
+        target={[0, 0, 0]}
+      />
+      <SceneLighting />
+      <group
+        scale={isMobile || isTablet ? 0.4 : 0.6}
+        position={isMobile || isTablet ? [0, -0.8, 0] : [0, -1.5, 0]}
+      >
+        <Programmer animationName="WORK" loop={true} />
       </group>
     </Canvas>
   );

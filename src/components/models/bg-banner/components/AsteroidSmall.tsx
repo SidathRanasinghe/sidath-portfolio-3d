@@ -14,4 +14,3 @@ export function AsteroidSmall(props: any) {
 }
 
 useGLTF.preload("/models/asteroid_small.glb");
-
