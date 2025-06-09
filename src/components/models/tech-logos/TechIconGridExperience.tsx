@@ -307,7 +307,8 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       // Adjust camera distance based on screen size for better framing
       let cameraDistanceMultiplier = 1;
       if (size.width < 480) cameraDistanceMultiplier = 1.25; // Move back on mobile
-      if (size.width < 640) cameraDistanceMultiplier = 1.2; // Move back on mobile
+      if (size.width < 640)
+        cameraDistanceMultiplier = 1.2; // Move back on mobile
       else if (size.width < 1024) cameraDistanceMultiplier = 1.1; // Slightly back on tablet
 
       const cameraDistance = baseCameraDistance * cameraDistanceMultiplier;

@@ -10,7 +10,7 @@ const TitleHeader = ({ title, sub }: TitleHeaderProps) => {
         <p>{sub}</p>
       </div>
       <div>
-        <h1 className="font-semibold md:text-5xl text-3xl text-center">{title}</h1>
+        <h1 className="text-center text-3xl font-semibold md:text-5xl">{title}</h1>
       </div>
     </div>
   );

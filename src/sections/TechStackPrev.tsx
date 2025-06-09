@@ -35,8 +35,8 @@ const TechStack = () => {
   });
 
   return (
-    <div id="skills" className="relative flex-center z-10 section-padding">
-      <div className="w-full h-full md:px-10 px-5">
+    <div id="skills" className="flex-center section-padding relative z-10">
+      <div className="h-full w-full px-5 md:px-10">
         <TitleHeader
           title="How I Can Contribute & My Key Skills"
           sub="🤝 What I Bring to the Table"
@@ -48,7 +48,7 @@ const TechStack = () => {
             techStackIcons.map(techStackIcon => (
               <div
                 key={techStackIcon.name}
-                className="group tech-card card-border rounded-lg overflow-hidden"
+                className="tech-card card-border group overflow-hidden rounded-lg"
               >
                 {/* The tech-card-animated-bg div is used to create a background animation when the component is hovered. */}
                 <div className="tech-card-animated-bg" />
@@ -58,7 +58,7 @@ const TechStack = () => {
                     <TechIconCardExperience model={techStackIcon} />
                   </div>
                   {/* The padding-x and w-full classes are used to add horizontal padding to the text and make it take up the full width of the component. */}
-                  <div className="w-full lg:pt-2.5 lg:pb-5 xl:pt-2.5 xl:pb-8">
+                  <div className="w-full lg:pb-5 lg:pt-2.5 xl:pb-8 xl:pt-2.5">
                     {/* The p tag contains the name of the tech stack icon. */}
                     <p>{techStackIcon.name}</p>
                   </div>

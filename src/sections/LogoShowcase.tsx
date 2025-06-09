@@ -7,19 +7,19 @@ type LogoIconProps = {
 
 const Logo = ({ icon }: LogoIconProps) => {
   return (
-    <div className="flex-none flex-center marquee-item">
+    <div className="flex-center marquee-item flex-none">
       <img src={icon.imgPath} alt={icon.name} />
     </div>
   );
 };
 
 const LogoShowcase = () => (
-  <div className="md:my-20 my-10 relative z-10">
+  <div className="relative z-10 my-10 md:my-20">
     <div className="gradient-edge" />
     <div className="gradient-edge" />
 
     <div className="marquee h-52">
-      <div className="marquee-box md:gap-12 gap-5">
+      <div className="marquee-box gap-5 md:gap-12">
         {logoIconsList.map((icon, index) => (
           <Logo key={index} icon={icon} />
         ))}

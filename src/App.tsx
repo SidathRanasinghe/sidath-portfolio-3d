@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       <BgBanner />
-      <div className="size-full overflow-auto z-[1]">
+      <div className="z-[1] size-full overflow-auto">
         <NavBar />
         <Hero />
         {sectionConfigs.projectsShowCase && <ShowcaseSection />}

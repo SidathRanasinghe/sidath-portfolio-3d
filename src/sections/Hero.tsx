@@ -63,19 +63,19 @@ const Hero = () => {
 
   return (
     <section id="hero" className="relative overflow-hidden">
-      <div className="absolute top-0 left-0 z-10">
+      <div className="absolute left-0 top-0 z-10">
         <img src="/images/bg.png" alt="" />
       </div>
 
       <div className="hero-layout">
         {/* LEFT: Hero Content */}
-        <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+        <header className="flex w-screen flex-col justify-center px-5 md:w-full md:px-20">
           <div className="flex flex-col gap-7">
             {/* Carousel for Hero Titles */}
             {sectionConfigs.heroTitles && (
               <Carousel
                 setApi={setApi}
-                className="w-full pointer-events-none z-10"
+                className="pointer-events-none z-10 w-full"
                 plugins={[
                   Autoplay({
                     delay: 10000,
@@ -92,7 +92,7 @@ const Hero = () => {
               >
                 <CarouselContent className="-ml-0">
                   {heroTitles.map((title: HeroTitle, i: number) => (
-                    <CarouselItem key={`carousel_${i}`} className="pl-0 basis-full">
+                    <CarouselItem key={`carousel_${i}`} className="basis-full pl-0">
                       <div className="hero-text w-full">
                         {title.lines.map((line: string, index: number) =>
                           index === 0 ? (
@@ -121,15 +121,15 @@ const Hero = () => {
                 </CarouselContent>
 
                 {/* Custom Dot Navigation */}
-                <div className="relative flex justify-start w-fit gap-2 mt-7 pointer-events-auto">
+                <div className="pointer-events-auto relative mt-7 flex w-fit justify-start gap-2">
                   {Array.from({ length: count }, (_: undefined, index: number) => (
                     <button
                       key={index}
                       onClick={(): void => handleDotClick(index)}
                       className={cn(
-                        "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
+                        "h-2 w-2 cursor-pointer rounded-full transition-all duration-300",
                         index === current - 1
-                          ? "bg-white scale-110"
+                          ? "scale-110 bg-white"
                           : "bg-white/40 hover:bg-white/60"
                       )}
                       aria-label={`Go to slide ${index + 1}`}
@@ -141,12 +141,12 @@ const Hero = () => {
             )}
 
             {sectionConfigs.selfDescription && (
-              <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
+              <p className="text-white-50 pointer-events-none relative z-10 md:text-xl">
                 {selfDescription}
               </p>
             )}
 
-            <LinkButton text="See My Work" className="md:w-80 md:h-16 w-60 h-12" id="counter" />
+            <LinkButton text="See My Work" className="h-12 w-60 md:h-16 md:w-80" id="counter" />
           </div>
         </header>
 

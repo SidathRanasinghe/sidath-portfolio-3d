@@ -33,7 +33,7 @@ const RealisticSpaceScene = () => {
 
 const BgBanner = () => {
   return (
-    <div className="fixed inset-0 h-screen w-full z-0 overflow-hidden">
+    <div className="fixed inset-0 z-0 h-screen w-full overflow-hidden">
       <Canvas
         camera={{ position: [0, 0, 10], fov: 65 }}
         style={{

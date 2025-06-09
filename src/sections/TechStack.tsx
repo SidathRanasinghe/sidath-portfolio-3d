@@ -60,8 +60,8 @@ const TechStack = () => {
   });
 
   return (
-    <div id="skills" className="relative flex-center z-10 section-padding">
-      <div className="w-full h-full md:px-10 px-5">
+    <div id="skills" className="flex-center section-padding relative z-10">
+      <div className="h-full w-full px-5 md:px-10">
         <TitleHeader
           title="How I Can Contribute & My Key Skills"
           sub="🤝 What I Bring to the Table"
@@ -69,7 +69,7 @@ const TechStack = () => {
 
         {sectionConfigs.techStackIcons && (
           <div
-            className="tech-canvas-container mt-32 w-full rounded-lg overflow-hidden card-border relative"
+            className="tech-canvas-container card-border relative mt-32 w-full overflow-hidden rounded-lg"
             style={{ height: `${canvasHeight}px` }}
           >
             <Canvas

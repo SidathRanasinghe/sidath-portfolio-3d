@@ -2,7 +2,7 @@ import { sectionConfigs, socialImgs } from "@/constants";
 
 const Footer = () => {
   return (
-    <footer className="relative footer z-10">
+    <footer className="footer relative z-10">
       <div className="footer-container">
         <div className="flex flex-col justify-center">
           <p>Terms & Conditions</p>

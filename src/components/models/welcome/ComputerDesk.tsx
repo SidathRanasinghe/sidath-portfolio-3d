@@ -207,4 +207,3 @@ export function ComputerDesk(props: JSX.IntrinsicElements["group"]) {
 }
 
 useGLTF.preload("/models/computer_desk.glb");
-

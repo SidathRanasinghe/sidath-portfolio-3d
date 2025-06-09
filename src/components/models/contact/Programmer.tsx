@@ -486,4 +486,3 @@ export function Programmer({
 }
 
 useGLTF.preload("/models/programmer.glb");
-
