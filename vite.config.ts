@@ -18,6 +18,21 @@ export default defineConfig({
     extensions: [".js", ".ts", ".jsx", ".tsx", ".json"],
   },
   optimizeDeps: {
-    include: ["@radix-ui/react-slot"],
+    include: [
+      "@radix-ui/react-slot",
+      "three",
+      "@react-three/fiber",
+      "@react-three/drei"
+    ],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          'react-three': ['@react-three/fiber', '@react-three/drei'],
+        },
+      },
+    },
   },
 });

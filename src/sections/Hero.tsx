@@ -9,7 +9,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-// import Fade from "embla-carousel-fade";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { heroTitles, sectionConfigs, selfDescription } from "@/constants";
@@ -82,7 +81,6 @@ const Hero = () => {
                     stopOnInteraction: true,
                     stopOnMouseEnter: true,
                   }),
-                  // Fade(),
                 ]}
                 opts={{
                   align: "start" as const,
@@ -129,7 +127,7 @@ const Hero = () => {
                       className={cn(
                         "h-2 w-2 cursor-pointer rounded-full transition-all duration-300",
                         index === current - 1
-                          ? "scale-110 bg-white"
+                          ? "bg-white scale-110"
                           : "bg-white/40 hover:bg-white/60"
                       )}
                       aria-label={`Go to slide ${index + 1}`}
@@ -141,7 +139,7 @@ const Hero = () => {
             )}
 
             {sectionConfigs.selfDescription && (
-              <p className="text-white-50 pointer-events-none relative z-10 md:text-xl">
+              <p className="pointer-events-none relative z-10 text-white-50 md:text-xl">
                 {selfDescription}
               </p>
             )}
