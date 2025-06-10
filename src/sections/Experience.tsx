@@ -50,7 +50,7 @@ const Experience = () => {
       scrollTrigger: {
         trigger: ".timeline-wrapper",
         start: "top center",
-        end: "70% center",
+        end: "80% center", // "bottom center",
         // Update the animation as the user scrolls
         onUpdate: (self: ScrollTrigger) => {
           // Clip the timeline from bottom based on scroll progress
@@ -112,7 +112,7 @@ const Experience = () => {
                 <div className="xl:w-full">
                   <div className="flex items-start">
                     {/* <div className="timeline-wrapper absolute top-0 xl:left-[35.5vw] md:left-10 left-5 h-full flex justify-center"> */}
-                    <div className="timeline-wrapper left-9.75 absolute top-0 flex h-full justify-center">
+                    <div className="timeline-wrapper absolute left-[2.5rem] top-0 flex h-full justify-center">
                       <div className="gradient-line h-full w-1" />
                     </div>
                     <div className="expText relative z-20 flex gap-5 md:gap-10 xl:gap-20">
@@ -124,11 +124,11 @@ const Experience = () => {
                       <div>
                         <h1 className="text-3xl font-semibold">{card.title}</h1>
                         <span className="flex items-center justify-start gap-4 font-bold text-gray-400">
-                          <p className="text-white-50 my-5">💼&nbsp;{card.company}</p>|
-                          <p className="text-white-50 my-5">🗓️&nbsp;{card.date}</p>
+                          <p className="my-5 text-white-50">💼&nbsp;{card.company}</p>|
+                          <p className="my-5 text-white-50">🗓️&nbsp;{card.date}</p>
                         </span>
                         <p className="italic text-[#839CB5]">Responsibilities</p>
-                        <ul className="text-white-50 ms-5 mt-5 flex list-disc flex-col gap-5">
+                        <ul className="ms-5 mt-5 flex list-disc flex-col gap-5 text-white-50">
                           {card.responsibilities.map((responsibility: string, index: number) => (
                             <li key={index} className="text-lg">
                               {responsibility}

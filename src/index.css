@@ -222,19 +222,15 @@ section {
   }
 
   .card-border {
-    @apply border border-black-50 bg-transparent backdrop-blur-sm transition-all duration-500;
+    @apply border border-black-50 bg-transparent backdrop-blur-sm;
   }
 
   .marquee-item {
     @apply w-32 md:w-40;
   }
 
-  /* .timeline {
-    @apply absolute z-30 h-[110%] -top-10 w-14 md:w-28 bg-black;
-  } */
-
   .timeline-logo {
-    @apply flex size-10 flex-none items-center justify-center rounded-full border border-black-50 bg-transparent backdrop-blur-md transition-all duration-500 md:size-20 md:-translate-y-7;
+    @apply flex size-10 flex-none items-center justify-center rounded-full border border-black-50 bg-transparent backdrop-blur-md md:size-20 md:-translate-y-7;
   }
 
   .exp-card-wrapper {

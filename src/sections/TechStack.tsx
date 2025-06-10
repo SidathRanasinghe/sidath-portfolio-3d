@@ -155,7 +155,7 @@ const TechStack = () => {
                 near: 0.01,
                 far: 1000,
               }}
-              style={{ background: "transparent" }}
+              style={{ background: "transparent", cursor: "grab" }}
               gl={{
                 antialias: true,
                 alpha: true,
