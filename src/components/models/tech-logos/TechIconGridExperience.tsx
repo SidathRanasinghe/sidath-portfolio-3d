@@ -5,13 +5,85 @@ import * as THREE from "three";
 import gsap from "gsap";
 import type { TechStackIcon } from "@/constants/types";
 
+// Shared virtual box configuration with proper progressive scaling
+export const VIRTUAL_BOX_CONFIG = {
+  xs: {
+    height: 2.5,
+    width: 3.5,
+    spacingMultiplierX: 1.3,
+    spacingMultiplierY: 1.75,
+  },
+  sm: {
+    height: 3.2,
+    width: 3.0,
+    spacingMultiplierX: 1.65,
+    spacingMultiplierY: 1.75,
+  },
+  md: {
+    height: 4.8,
+    width: 4.5,
+    spacingMultiplierX: 2,
+    spacingMultiplierY: 1.5,
+  },
+  lg: {
+    height: 4.2,
+    width: 4.0,
+    spacingMultiplierX: 1.6,
+    spacingMultiplierY: 1.7,
+  },
+  xl: {
+    height: 4.8,
+    width: 4.5,
+    spacingMultiplierX: 1.7,
+    spacingMultiplierY: 1.8,
+  },
+  "2xl": {
+    height: 5.4,
+    width: 5.0,
+    spacingMultiplierX: 1.8,
+    spacingMultiplierY: 1.9,
+  },
+  "3xl": {
+    height: 5.8,
+    width: 5.4,
+    spacingMultiplierX: 1.9,
+    spacingMultiplierY: 2.0,
+  },
+  "4xl": {
+    height: 6.2,
+    width: 5.8,
+    spacingMultiplierX: 2.0,
+    spacingMultiplierY: 2.1,
+  },
+  "5xl": {
+    height: 6.8,
+    width: 6.4,
+    spacingMultiplierX: 2.1,
+    spacingMultiplierY: 2.2,
+  },
+  "6xl": {
+    height: 7.2,
+    width: 6.8,
+    spacingMultiplierX: 2.2,
+    spacingMultiplierY: 2.3,
+  },
+  "7xl": {
+    height: 7.8,
+    width: 7.4,
+    spacingMultiplierX: 2.3,
+    spacingMultiplierY: 2.4,
+  },
+};
+
 interface ModelProps {
   model: TechStackIcon;
   position: [number, number, number];
   virtualBoxHeight: number;
+  virtualBoxWidth: number;
+  breakpoint: string;
 }
 
-const Model = ({ model, position, virtualBoxHeight }: ModelProps) => {
+const Model = ({ model, position, virtualBoxHeight, virtualBoxWidth, breakpoint }: ModelProps) => {
   const { scene } = useGLTF(model.modelPath, true);
   const groupRef = useRef<THREE.Group>(null);
   const modelRef = useRef<THREE.Group>(null);
@@ -58,54 +130,88 @@ const Model = ({ model, position, virtualBoxHeight }: ModelProps) => {
     if (groupRef.current && modelLoaded) {
       const time = state.clock.getElapsedTime();
       // Floating effect - only apply to the model, not the text
-      const floatY = Math.sin(time * 0.5 + floatOffset) * 0.1;
+      const floatY = Math.sin(time * 0.5 + floatOffset) * 0.08;
 
       if (modelRef.current) {
         modelRef.current.position.y = floatY;
-        modelRef.current.rotation.y += 0.015;
+        modelRef.current.rotation.y += 0.012;
       }
     }
   });
 
-  // Calculate model position within virtual box (centered vertically)
-  const modelPosition: [number, number, number] = useMemo(() => {
+  // Calculate responsive model scale and position with proper progressive scaling
+  const { modelPosition, modelScale, textPosition, textSize } = useMemo(() => {
+    // Progressive scaling factors
+    const scaleFactors = {
+      xs: 0.45,
+      sm: 0.55,
+      md: 0.65,
+      lg: 0.75,
+      xl: 0.85,
+      "2xl": 0.95,
+      "3xl": 1.05,
+      "4xl": 1.15,
+      "5xl": 1.25,
+      "6xl": 1.35,
+      "7xl": 1.45,
+    };
+
+    // Progressive text sizes
+    const textSizes = {
+      xs: 0.25,
+      sm: 0.32,
+      md: 0.38,
+      lg: 0.44,
+      xl: 0.5,
+      "2xl": 0.56,
+      "3xl": 0.62,
+      "4xl": 0.68,
+      "5xl": 0.74,
+      "6xl": 0.8,
+      "7xl": 0.86,
+    };
+
+    const baseScale = scaleFactors[breakpoint as keyof typeof scaleFactors] || 1.0;
+    const finalScale = (model.scale || 1) * baseScale;
+    const textSize = textSizes[breakpoint as keyof typeof textSizes] || 0.56;
+
+    let modelPos: [number, number, number] = [0, 0, 0];
+    let textPos: [number, number, number] = [0, -virtualBoxHeight * 0.7, 0];
+
     if (modelBounds && modelLoaded) {
       const scaledBounds = modelBounds.clone();
-      const scaleY = model.scale || 1;
-      const modelHeight = (scaledBounds.max.y - scaledBounds.min.y) * scaleY;
+      const modelHeight = (scaledBounds.max.y - scaledBounds.min.y) * finalScale;
 
-      // Center the model within the upper portion of the virtual box
-      // Leave space at bottom for text
-      const modelAreaHeight = virtualBoxHeight * 0.7; // 70% for model, 30% for text
-      const modelY = (modelAreaHeight - modelHeight) / 2;
+      // Position model in upper portion of virtual box
+      const modelAreaHeight = virtualBoxHeight * 0.6;
+      const modelY = (modelAreaHeight - modelHeight) / 2 + virtualBoxHeight * 0.15;
 
-      return [0, modelY, 0];
+      modelPos = [0, modelY, 0];
     }
-    return [0, 0, 0];
-  }, [modelBounds, modelLoaded, model.scale, virtualBoxHeight]);
 
-  // Calculate text position (always at bottom of virtual box)
-  const textPosition: [number, number, number] = useMemo(() => {
-    // Position text at the bottom of the virtual box
-    const textY = -virtualBoxHeight / 2 + 0.5; // Small padding from bottom
-    return [0, textY, 0];
-  }, [virtualBoxHeight]);
+    return {
+      modelPosition: modelPos,
+      modelScale: finalScale,
+      textPosition: textPos,
+      textSize,
+    };
+  }, [modelBounds, modelLoaded, model.scale, virtualBoxHeight, breakpoint]);
 
   // Show fallback cube if model fails to load
   if (!modelLoaded) {
     return (
       <group position={position}>
-        <mesh scale={[0.5, 0.5, 0.5]} position={modelPosition}>
+        <mesh scale={[0.4, 0.4, 0.4]} position={modelPosition}>
           <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="#6366f1" transparent opacity={0.8} />
+          <meshStandardMaterial color="#3c3c44" transparent opacity={0.8} />
         </mesh>
         <Text
           position={textPosition}
-          fontSize={0.2}
+          fontSize={textSize * 0.8}
           color="#9ca3af"
           anchorX="center"
           anchorY="middle"
-          maxWidth={2}
+          maxWidth={virtualBoxWidth * 0.8}
         >
           {model.name}
         </Text>
@@ -116,7 +222,7 @@ const Model = ({ model, position, virtualBoxHeight }: ModelProps) => {
   return (
     <group ref={groupRef} position={position}>
       {/* Model with floating animation positioned within virtual box */}
-      <group ref={modelRef} position={modelPosition} scale={model.scale} rotation={model.rotation}>
+      <group ref={modelRef} position={modelPosition} scale={modelScale} rotation={model.rotation}>
         <primitive object={scene.clone()} />
       </group>
 
@@ -124,14 +230,14 @@ const Model = ({ model, position, virtualBoxHeight }: ModelProps) => {
       <group ref={textRef}>
         <Text
           position={textPosition}
-          fontSize={0.75}
-          fontWeight={900}
+          fontSize={textSize}
+          fontWeight={800}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          maxWidth={3}
+          maxWidth={virtualBoxWidth * 0.9}
           fillOpacity={1}
-          strokeWidth={0.02}
+          strokeWidth={0.01}
         >
           {model.name}
         </Text>
@@ -142,11 +248,22 @@ const Model = ({ model, position, virtualBoxHeight }: ModelProps) => {
 
 interface TechIconGridExperienceProps {
   models: TechStackIcon[];
-  containerWidth?: number;
   containerHeight?: number;
+  fixedCameraZ?: number;
+  screenWidth?: number;
+  breakpoint?: string;
+  columns?: number;
+  rows?: number;
 }
 
-const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
+const TechIconGridExperience = ({
+  models,
+  fixedCameraZ = 60,
+  screenWidth = 1920,
+  breakpoint = "5xl",
+  columns = 6,
+  rows = 3,
+}: TechIconGridExperienceProps) => {
   const { camera, size, gl } = useThree();
   const containerRef = useRef<THREE.Group>(null);
   const controlsRef = useRef<any>(null);
@@ -155,192 +272,56 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
   const interactionTimeoutRef = useRef<number | null>(null);
   const isResettingRef = useRef(false);
 
-  // Calculate virtual box height based on screen size
-  const virtualBoxHeight = useMemo(() => {
-    const screenWidth = size.width;
+  // Calculate responsive virtual box dimensions using shared config
+  const { virtualBoxHeight, virtualBoxWidth, spacingConfig } = useMemo(() => {
+    // Get virtual box configuration for current breakpoint
+    const boxConfig =
+      VIRTUAL_BOX_CONFIG[breakpoint as keyof typeof VIRTUAL_BOX_CONFIG] ||
+      VIRTUAL_BOX_CONFIG["5xl"];
 
-    if (screenWidth < 480) return 4; // Mobile
-    if (screenWidth < 640) return 6; // Mobile
-    if (screenWidth < 768) return 7; // Small tablet
-    if (screenWidth < 1024) return 8; // Tablet
-    if (screenWidth < 1280) return 9; // Small desktop
-    return 10; // Large desktop
-  }, [size.width]);
+    const { height, width, spacingMultiplierX, spacingMultiplierY } = boxConfig;
 
-  // Helper function to calculate responsive horizontal spacing
-  const calculateResponsiveSpacingX = useCallback(
-    (screenWidth: number, boxHeight: number, columns: number) => {
-      // Define spacing configuration for different screen sizes
-      const spacingConfig = {
-        mini: {
-          baseRatio: 0.5,
-          minSpacing: boxHeight * 0.25,
-          maxSpacing: boxHeight * 0.5,
-          paddingRatio: 0.02, // 2% padding on mobile
-        },
-        mobile: {
-          baseRatio: 0.65,
-          minSpacing: boxHeight * 0.4,
-          maxSpacing: boxHeight * 0.8,
-          paddingRatio: 0.05, // 5% padding on mobile
-        },
-        smallTablet: {
-          baseRatio: 0.75,
-          minSpacing: boxHeight * 0.5,
-          maxSpacing: boxHeight * 0.9,
-          paddingRatio: 0.08, // 8% padding on small tablet
-        },
-        tablet: {
-          baseRatio: 0.85,
-          minSpacing: boxHeight * 0.6,
-          maxSpacing: boxHeight * 1.0,
-          paddingRatio: 0.1, // 10% padding on tablet
-        },
-        desktop: {
-          baseRatio: 0.95,
-          minSpacing: boxHeight * 0.7,
-          maxSpacing: boxHeight * 1.2,
-          paddingRatio: 0.12, // 12% padding on desktop
-        },
-        large: {
-          baseRatio: 1.0,
-          minSpacing: boxHeight * 0.8,
-          maxSpacing: boxHeight * 1.4,
-          paddingRatio: 0.15, // 15% padding on large screens
-        },
-      };
+    // Spacing configuration
+    const spacingX = width * spacingMultiplierX;
+    const spacingY = height * spacingMultiplierY;
 
-      // Select appropriate config based on screen width
-      let config;
-      if (screenWidth < 480) {
-        config = spacingConfig.mini;
-      } else if (screenWidth < 640) {
-        config = spacingConfig.mobile;
-      } else if (screenWidth < 768) {
-        config = spacingConfig.smallTablet;
-      } else if (screenWidth < 1024) {
-        config = spacingConfig.tablet;
-      } else if (screenWidth < 1280) {
-        config = spacingConfig.desktop;
-      } else {
-        config = spacingConfig.large;
-      }
+    return {
+      virtualBoxHeight: height,
+      virtualBoxWidth: width,
+      spacingConfig: { spacingX, spacingY },
+    };
+  }, [breakpoint, screenWidth, size.width]);
 
-      // Calculate available width after accounting for container padding
-      const containerPadding = screenWidth * config.paddingRatio * 2; // Both sides
-      const availableWidth = screenWidth - containerPadding;
+  // Calculate grid positions with optimized spacing
+  const getGridPosition = useCallback(
+    (index: number): [number, number, number] => {
+      const col = index % columns;
+      const row = Math.floor(index / columns);
 
-      // Estimate space needed for virtual boxes (models occupy roughly 60% of box height in width)
-      const estimatedBoxWidth = boxHeight * 0.6;
-      const totalBoxWidth = columns * estimatedBoxWidth;
+      // Center the grid with improved calculations
+      const totalWidth = (columns - 1) * spacingConfig.spacingX;
+      const totalHeight = (rows - 1) * spacingConfig.spacingY;
 
-      // Calculate optimal spacing based on remaining space
-      const remainingSpace = Math.max(0, availableWidth - totalBoxWidth);
-      const optimalSpacing = columns > 1 ? remainingSpace / (columns - 1) : boxHeight;
+      const x = col * spacingConfig.spacingX - totalWidth / 2;
+      const y = (rows - 1 - row) * spacingConfig.spacingY - totalHeight / 2;
+      const z = 0;
 
-      // Apply base ratio and clamp between min and max values
-      const calculatedSpacing = optimalSpacing * config.baseRatio;
-
-      return Math.max(config.minSpacing, Math.min(config.maxSpacing, calculatedSpacing));
+      return [x, y, z];
     },
-    []
+    [columns, rows, spacingConfig]
   );
 
-  // Calculate responsive grid layout with viewport-aware spacing
-  const gridConfig = useMemo(() => {
-    let columns: number;
-    const screenWidth = size.width;
-    console.log("screenWidth : ", screenWidth);
-
-    // Responsive column calculation
-    if (screenWidth < 480) {
-      columns = Math.min(1, models.length);
-    } else if (screenWidth < 640) {
-      columns = Math.min(2, models.length);
-    } else if (screenWidth < 768) {
-      columns = Math.min(3, models.length);
-    } else if (screenWidth < 1024) {
-      columns = Math.min(4, models.length);
-    } else if (screenWidth < 1280) {
-      columns = Math.min(5, models.length);
-    } else {
-      columns = Math.min(6, models.length);
-    }
-
-    const rows = Math.ceil(models.length / columns);
-
-    // Calculate responsive spacing
-    const spacingX = calculateResponsiveSpacingX(screenWidth, virtualBoxHeight, columns);
-    const spacingY = virtualBoxHeight * 1.1; // Slightly more vertical spacing
-
-    return { columns, rows, spacingX, spacingY };
-  }, [models.length, size.width, virtualBoxHeight, calculateResponsiveSpacingX]);
-
-  // Calculate grid positions
-  const getGridPosition = (index: number): [number, number, number] => {
-    const { columns, spacingX, spacingY } = gridConfig;
-    const col = index % columns;
-    const row = Math.floor(index / columns);
-
-    // Center the grid
-    const totalWidth = (columns - 1) * spacingX;
-    const totalHeight = (gridConfig.rows - 1) * spacingY;
-
-    const x = col * spacingX - totalWidth / 2;
-    const y = (gridConfig.rows - 1 - row) * spacingY - totalHeight / 2;
-    const z = 0;
-
-    return [x, y, z];
-  };
-
-  // Set up initial camera position and store it
+  // Set up initial camera position with fixed Z value
   useEffect(() => {
     if (camera) {
-      const { rows, columns, spacingX, spacingY } = gridConfig;
-      const gridWidth = (columns - 1) * spacingX;
-      const gridHeight = (rows - 1) * spacingY;
-      const maxDimension = Math.max(gridWidth, gridHeight);
-
-      // Calculate camera distance based on grid size with improved formula
-      const baseCameraDistance = Math.max(15, maxDimension * 0.7 + 8);
-
-      // Adjust camera distance based on screen size for better framing
-      let cameraDistanceMultiplier = 1;
-      if (size.width < 480) cameraDistanceMultiplier = 1.25; // Move back on mobile
-      if (size.width < 640)
-        cameraDistanceMultiplier = 1.2; // Move back on mobile
-      else if (size.width < 1024) cameraDistanceMultiplier = 1.1; // Slightly back on tablet
-
-      const cameraDistance = baseCameraDistance * cameraDistanceMultiplier;
-
-      // Store initial position and rotation
-      initialCameraPosition.current.set(0, 0, cameraDistance);
+      initialCameraPosition.current.set(0, 0, fixedCameraZ);
       initialCameraRotation.current.set(0, 0, 0);
 
       camera.position.copy(initialCameraPosition.current);
       camera.rotation.copy(initialCameraRotation.current);
       camera.lookAt(0, 0, 0);
-
-      // Update camera projection with responsive FOV
-      if (camera instanceof THREE.PerspectiveCamera) {
-        let fov = 45; // Default FOV
-
-        // Adjust FOV based on screen size and grid dimensions
-        if (size.width < 480) {
-          fov = Math.max(55, Math.min(75, maxDimension * 3.5 + 50)); // Wider FOV on mini mobile
-        } else if (size.width < 640) {
-          fov = Math.max(50, Math.min(70, maxDimension * 3 + 45)); // Wider FOV on mobile
-        } else if (size.width < 1024) {
-          fov = Math.max(45, Math.min(65, maxDimension * 2.5 + 40)); // Moderate FOV on tablet
-        } else {
-          fov = Math.max(40, Math.min(60, maxDimension * 2 + 35)); // Narrower FOV on desktop
-        }
-
-        camera.fov = fov;
-        camera.updateProjectionMatrix();
-      }
     }
-  }, [camera, gridConfig, models.length, size.width]);
+  }, [camera, fixedCameraZ]);
 
   // Reset camera to initial position with animation
   const resetCamera = useCallback(() => {
@@ -360,7 +341,7 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
         x: initialCameraPosition.current.x,
         y: initialCameraPosition.current.y,
         z: initialCameraPosition.current.z,
-        duration: 1.5,
+        duration: 1.2,
         ease: "power2.inOut",
       });
 
@@ -371,7 +352,7 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
           x: initialCameraRotation.current.x,
           y: initialCameraRotation.current.y,
           z: initialCameraRotation.current.z,
-          duration: 1.5,
+          duration: 1.2,
           ease: "power2.inOut",
         },
         "<"
@@ -385,7 +366,7 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
             x: 0,
             y: 0,
             z: 0,
-            duration: 1.5,
+            duration: 1.2,
             ease: "power2.inOut",
             onUpdate: () => {
               if (controls.update) {
@@ -402,7 +383,6 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
   // Handle interaction detection
   useEffect(() => {
     const handleInteractionStart = () => {
-      // Clear existing timeout
       if (interactionTimeoutRef.current) {
         clearTimeout(interactionTimeoutRef.current);
         interactionTimeoutRef.current = null;
@@ -410,7 +390,6 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
     };
 
     const handleInteractionEnd = () => {
-      // Set timeout to reset after 3 seconds of inactivity
       if (interactionTimeoutRef.current) {
         clearTimeout(interactionTimeoutRef.current);
         interactionTimeoutRef.current = null;
@@ -418,10 +397,9 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
 
       interactionTimeoutRef.current = window.setTimeout(() => {
         resetCamera();
-      }, 3000);
+      }, 2500);
     };
 
-    // Add event listeners for various interaction types
     const canvas = gl.domElement;
     if (canvas && controlsRef.current) {
       const controls = controlsRef.current;
@@ -429,14 +407,12 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       // Mouse events
       canvas.addEventListener("mousedown", handleInteractionStart);
       canvas.addEventListener("mouseup", handleInteractionEnd);
-      canvas.addEventListener("wheel", handleInteractionStart);
-      canvas.addEventListener("wheel", handleInteractionEnd);
 
       // Touch events
       canvas.addEventListener("touchstart", handleInteractionStart);
       canvas.addEventListener("touchend", handleInteractionEnd);
 
-      // OrbitControls events - using proper event handling
+      // OrbitControls events
       const onControlsStart = () => handleInteractionStart();
       const onControlsEnd = () => handleInteractionEnd();
 
@@ -446,8 +422,6 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       return () => {
         canvas.removeEventListener("mousedown", handleInteractionStart);
         canvas.removeEventListener("mouseup", handleInteractionEnd);
-        canvas.removeEventListener("wheel", handleInteractionStart);
-        canvas.removeEventListener("wheel", handleInteractionEnd);
         canvas.removeEventListener("touchstart", handleInteractionStart);
         canvas.removeEventListener("touchend", handleInteractionEnd);
 
@@ -464,16 +438,37 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
     }
   }, [gl.domElement, resetCamera]);
 
+  // Calculate responsive lighting intensity
+  const lightingConfig = useMemo(() => {
+    const isMobile = breakpoint === "xs" || breakpoint === "sm";
+    return {
+      ambient: isMobile ? 1.0 : 0.8,
+      directional1: isMobile ? 1.1 : 1.2,
+      directional2: isMobile ? 0.6 : 0.7,
+      point: isMobile ? 0.8 : 0.9,
+      spot: isMobile ? 1.1 : 1.2,
+      environment: isMobile ? 0.3 : 0.4,
+    };
+  }, [breakpoint]);
+
   return (
     <group ref={containerRef}>
-      {/* Enhanced lighting setup */}
-      <ambientLight intensity={0.9} />
-      <directionalLight position={[5, 5, 5]} intensity={1.2} color="#ffffff" />
-      <directionalLight position={[-5, -5, 5]} intensity={0.6} color="#4f46e5" />
-      <pointLight position={[0, 0, 10]} intensity={0.8} />
-      <spotLight position={[0, 10, 8]} angle={0.3} penumbra={1} intensity={1.2} />
+      {/* Enhanced lighting setup with responsive intensity */}
+      <ambientLight intensity={lightingConfig.ambient} />
+      <directionalLight
+        position={[5, 5, 5]}
+        intensity={lightingConfig.directional1}
+        color="#ffffff"
+      />
+      <directionalLight
+        position={[-5, -5, 5]}
+        intensity={lightingConfig.directional2}
+        color="#4f46e5"
+      />
+      <pointLight position={[0, 0, 10]} intensity={lightingConfig.point} />
+      <spotLight position={[0, 10, 8]} angle={0.3} penumbra={1} intensity={lightingConfig.spot} />
 
-      <Environment preset="sunset" environmentIntensity={0.3} />
+      <Environment preset="sunset" environmentIntensity={lightingConfig.environment} />
 
       {models.map((model, index) => {
         const position = getGridPosition(index);
@@ -483,6 +478,8 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
             model={model}
             position={position}
             virtualBoxHeight={virtualBoxHeight}
+            virtualBoxWidth={virtualBoxWidth}
+            breakpoint={breakpoint}
           />
         );
       })}
@@ -490,18 +487,15 @@ const TechIconGridExperience = ({ models }: TechIconGridExperienceProps) => {
       {/* OrbitControls with responsive settings */}
       <OrbitControls
         ref={controlsRef}
-        enableZoom={true}
+        enableZoom={false}
         enablePan={true}
         enableRotate={true}
-        maxDistance={45}
-        minDistance={6}
         enableDamping={true}
-        dampingFactor={0.08}
-        maxPolarAngle={Math.PI / 1.3}
-        minPolarAngle={Math.PI / 8}
-        rotateSpeed={size.width < 768 ? 0.6 : 0.8} // Slower rotation on mobile
-        zoomSpeed={size.width < 768 ? 1.0 : 1.2}
-        panSpeed={size.width < 768 ? 0.6 : 0.8}
+        dampingFactor={0.1}
+        maxPolarAngle={Math.PI / 1.2}
+        minPolarAngle={Math.PI / 6}
+        rotateSpeed={screenWidth && screenWidth < 768 ? 0.4 : 0.6}
+        panSpeed={screenWidth && screenWidth < 768 ? 0.4 : 0.6}
       />
     </group>
   );
