@@ -5,6 +5,76 @@ import * as THREE from "three";
 import gsap from "gsap";
 import type { TechStackIcon } from "@/constants/types";
 
+// Shared virtual box configuration with proper progressive scaling
+export const VIRTUAL_BOX_CONFIG = {
+  xs: {
+    height: 2.5,
+    width: 3.5,
+    spacingMultiplierX: 1.3,
+    spacingMultiplierY: 1.75,
+  },
+  sm: {
+    height: 3.2,
+    width: 3.0,
+    spacingMultiplierX: 1.65,
+    spacingMultiplierY: 1.75,
+  },
+  md: {
+    height: 4.8,
+    width: 4.5,
+    spacingMultiplierX: 2,
+    spacingMultiplierY: 1.5,
+  },
+  lg: {
+    height: 4.2,
+    width: 4.0,
+    spacingMultiplierX: 1.6,
+    spacingMultiplierY: 1.7,
+  },
+  xl: {
+    height: 4.8,
+    width: 4.5,
+    spacingMultiplierX: 1.7,
+    spacingMultiplierY: 1.8,
+  },
+  "2xl": {
+    height: 5.4,
+    width: 5.0,
+    spacingMultiplierX: 1.8,
+    spacingMultiplierY: 1.9,
+  },
+  "3xl": {
+    height: 5.8,
+    width: 5.4,
+    spacingMultiplierX: 1.9,
+    spacingMultiplierY: 2.0,
+  },
+  "4xl": {
+    height: 6.2,
+    width: 5.8,
+    spacingMultiplierX: 2.0,
+    spacingMultiplierY: 2.1,
+  },
+  "5xl": {
+    height: 6.8,
+    width: 6.4,
+    spacingMultiplierX: 2.1,
+    spacingMultiplierY: 2.2,
+  },
+  "6xl": {
+    height: 7.2,
+    width: 6.8,
+    spacingMultiplierX: 2.2,
+    spacingMultiplierY: 2.3,
+  },
+  "7xl": {
+    height: 7.8,
+    width: 7.4,
+    spacingMultiplierX: 2.3,
+    spacingMultiplierY: 2.4,
+  },
+};
+
 interface ModelProps {
   model: TechStackIcon;
   position: [number, number, number];
@@ -69,52 +139,52 @@ const Model = ({ model, position, virtualBoxHeight, virtualBoxWidth, breakpoint 
     }
   });
 
-  // Calculate responsive model scale and position - Optimized based on 5xl baseline
+  // Calculate responsive model scale and position with proper progressive scaling
   const { modelPosition, modelScale, textPosition, textSize } = useMemo(() => {
-    // Responsive scaling based on breakpoint - proportional to 5xl baseline (1.1)
+    // Progressive scaling factors
     const scaleFactors = {
-      xs: 0.55,
-      sm: 0.66,
-      md: 0.77,
-      lg: 0.88,
-      xl: 0.99,
-      "2xl": 1.1,
-      "3xl": 1.21,
-      "4xl": 1.32,
-      "5xl": 1.1,
-      "6xl": 1.43,
-      "7xl": 1.54,
+      xs: 0.45,
+      sm: 0.55,
+      md: 0.65,
+      lg: 0.75,
+      xl: 0.85,
+      "2xl": 0.95,
+      "3xl": 1.05,
+      "4xl": 1.15,
+      "5xl": 1.25,
+      "6xl": 1.35,
+      "7xl": 1.45,
     };
 
-    // Text sizes - proportional to 5xl baseline (0.65)
+    // Progressive text sizes
     const textSizes = {
-      xs: 0.33,
-      sm: 0.39,
-      md: 0.46,
-      lg: 0.52,
-      xl: 0.59,
-      "2xl": 0.65,
-      "3xl": 0.72,
-      "4xl": 0.78,
-      "5xl": 0.65,
-      "6xl": 0.85,
-      "7xl": 0.91,
+      xs: 0.25,
+      sm: 0.32,
+      md: 0.38,
+      lg: 0.44,
+      xl: 0.5,
+      "2xl": 0.56,
+      "3xl": 0.62,
+      "4xl": 0.68,
+      "5xl": 0.74,
+      "6xl": 0.8,
+      "7xl": 0.86,
     };
 
-    const baseScale = scaleFactors[breakpoint as keyof typeof scaleFactors] || 1.1;
+    const baseScale = scaleFactors[breakpoint as keyof typeof scaleFactors] || 1.0;
     const finalScale = (model.scale || 1) * baseScale;
-    const textSize = textSizes[breakpoint as keyof typeof textSizes] || 0.65;
+    const textSize = textSizes[breakpoint as keyof typeof textSizes] || 0.56;
 
     let modelPos: [number, number, number] = [0, 0, 0];
-    let textPos: [number, number, number] = [0, -virtualBoxHeight * 0.75, 0];
+    let textPos: [number, number, number] = [0, -virtualBoxHeight * 0.7, 0];
 
     if (modelBounds && modelLoaded) {
       const scaledBounds = modelBounds.clone();
       const modelHeight = (scaledBounds.max.y - scaledBounds.min.y) * finalScale;
 
       // Position model in upper portion of virtual box
-      const modelAreaHeight = virtualBoxHeight * 0.65;
-      const modelY = (modelAreaHeight - modelHeight) / 2 + virtualBoxHeight * 0.1;
+      const modelAreaHeight = virtualBoxHeight * 0.6;
+      const modelY = (modelAreaHeight - modelHeight) / 2 + virtualBoxHeight * 0.15;
 
       modelPos = [0, modelY, 0];
     }
@@ -178,7 +248,6 @@ const Model = ({ model, position, virtualBoxHeight, virtualBoxWidth, breakpoint 
 
 interface TechIconGridExperienceProps {
   models: TechStackIcon[];
-  containerWidth?: number;
   containerHeight?: number;
   fixedCameraZ?: number;
   screenWidth?: number;
@@ -189,7 +258,7 @@ interface TechIconGridExperienceProps {
 
 const TechIconGridExperience = ({
   models,
-  fixedCameraZ = 50,
+  fixedCameraZ = 60,
   screenWidth = 1920,
   breakpoint = "5xl",
   columns = 6,
@@ -203,32 +272,22 @@ const TechIconGridExperience = ({
   const interactionTimeoutRef = useRef<number | null>(null);
   const isResettingRef = useRef(false);
 
-  // Calculate responsive virtual box dimensions - Optimized based on 5xl baseline
+  // Calculate responsive virtual box dimensions using shared config
   const { virtualBoxHeight, virtualBoxWidth, spacingConfig } = useMemo(() => {
-    // Virtual box dimensions based on breakpoint - proportional to 5xl baseline
-    const boxConfigs = {
-      xs: { height: 3, width: 3, spacingMultiplier: 1.5 },
-      sm: { height: 4, width: 4, spacingMultiplier: 1.5 },
-      md: { height: 4.5, width: 4.5, spacingMultiplier: 1.5 },
-      lg: { height: 4.8, width: 4.4, spacingMultiplier: 1.52 },
-      xl: { height: 5.4, width: 4.95, spacingMultiplier: 1.71 },
-      "2xl": { height: 6.0, width: 5.5, spacingMultiplier: 1.9 },
-      "3xl": { height: 6.6, width: 6.05, spacingMultiplier: 2.09 },
-      "4xl": { height: 7.2, width: 6.6, spacingMultiplier: 2.28 },
-      "5xl": { height: 6.0, width: 5.5, spacingMultiplier: 1.9 },
-      "6xl": { height: 7.8, width: 7.15, spacingMultiplier: 2.47 },
-      "7xl": { height: 8.4, width: 7.7, spacingMultiplier: 2.66 },
-    };
+    // Get virtual box configuration for current breakpoint
+    const boxConfig =
+      VIRTUAL_BOX_CONFIG[breakpoint as keyof typeof VIRTUAL_BOX_CONFIG] ||
+      VIRTUAL_BOX_CONFIG["5xl"];
 
-    const config = boxConfigs[breakpoint as keyof typeof boxConfigs] || boxConfigs["5xl"];
+    const { height, width, spacingMultiplierX, spacingMultiplierY } = boxConfig;
 
     // Spacing configuration
-    const spacingX = config.width * config.spacingMultiplier;
-    const spacingY = config.height * config.spacingMultiplier;
+    const spacingX = width * spacingMultiplierX;
+    const spacingY = height * spacingMultiplierY;
 
     return {
-      virtualBoxHeight: config.height,
-      virtualBoxWidth: config.width,
+      virtualBoxHeight: height,
+      virtualBoxWidth: width,
       spacingConfig: { spacingX, spacingY },
     };
   }, [breakpoint, screenWidth, size.width]);
@@ -239,7 +298,7 @@ const TechIconGridExperience = ({
       const col = index % columns;
       const row = Math.floor(index / columns);
 
-      // Center the grid
+      // Center the grid with improved calculations
       const totalWidth = (columns - 1) * spacingConfig.spacingX;
       const totalHeight = (rows - 1) * spacingConfig.spacingY;
 
@@ -379,16 +438,37 @@ const TechIconGridExperience = ({
     }
   }, [gl.domElement, resetCamera]);
 
+  // Calculate responsive lighting intensity
+  const lightingConfig = useMemo(() => {
+    const isMobile = breakpoint === "xs" || breakpoint === "sm";
+    return {
+      ambient: isMobile ? 1.0 : 0.8,
+      directional1: isMobile ? 1.1 : 1.2,
+      directional2: isMobile ? 0.6 : 0.7,
+      point: isMobile ? 0.8 : 0.9,
+      spot: isMobile ? 1.1 : 1.2,
+      environment: isMobile ? 0.3 : 0.4,
+    };
+  }, [breakpoint]);
+
   return (
     <group ref={containerRef}>
       {/* Enhanced lighting setup with responsive intensity */}
-      <ambientLight intensity={breakpoint === "xs" || breakpoint === "sm" ? 1.1 : 0.9} />
-      <directionalLight position={[5, 5, 5]} intensity={1.3} color="#ffffff" />
-      <directionalLight position={[-5, -5, 5]} intensity={0.7} color="#4f46e5" />
-      <pointLight position={[0, 0, 10]} intensity={0.9} />
-      <spotLight position={[0, 10, 8]} angle={0.3} penumbra={1} intensity={1.3} />
+      <ambientLight intensity={lightingConfig.ambient} />
+      <directionalLight
+        position={[5, 5, 5]}
+        intensity={lightingConfig.directional1}
+        color="#ffffff"
+      />
+      <directionalLight
+        position={[-5, -5, 5]}
+        intensity={lightingConfig.directional2}
+        color="#4f46e5"
+      />
+      <pointLight position={[0, 0, 10]} intensity={lightingConfig.point} />
+      <spotLight position={[0, 10, 8]} angle={0.3} penumbra={1} intensity={lightingConfig.spot} />
 
-      <Environment preset="sunset" environmentIntensity={0.4} />
+      <Environment preset="sunset" environmentIntensity={lightingConfig.environment} />
 
       {models.map((model, index) => {
         const position = getGridPosition(index);
@@ -414,8 +494,8 @@ const TechIconGridExperience = ({
         dampingFactor={0.1}
         maxPolarAngle={Math.PI / 1.2}
         minPolarAngle={Math.PI / 6}
-        rotateSpeed={screenWidth && screenWidth < 768 ? 0.5 : 0.7}
-        panSpeed={screenWidth && screenWidth < 768 ? 0.5 : 0.7}
+        rotateSpeed={screenWidth && screenWidth < 768 ? 0.4 : 0.6}
+        panSpeed={screenWidth && screenWidth < 768 ? 0.4 : 0.6}
       />
     </group>
   );

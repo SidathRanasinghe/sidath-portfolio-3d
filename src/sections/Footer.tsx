@@ -4,8 +4,8 @@ const Footer = () => {
   return (
     <footer className="footer relative z-10">
       <div className="footer-container">
-        <div className="flex flex-col justify-center">
-          <p>Terms & Conditions</p>
+        <div className="flex flex-col items-start justify-center sm:!items-center">
+          <p className="w-full text-center md:text-start">Terms & Conditions</p>
         </div>
         <div className="socials">
           {sectionConfigs.socialImgs &&
@@ -15,7 +15,7 @@ const Footer = () => {
               </div>
             ))}
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col items-end justify-center sm:items-center">
           <p className="text-center md:text-end">
             © {new Date().getFullYear()} Sidath Ranasinghe. All rights reserved.
           </p>
