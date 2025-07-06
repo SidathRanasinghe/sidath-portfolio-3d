@@ -114,7 +114,7 @@ const TechStack = () => {
     const totalHeight3D = totalGridHeight3D + paddingY.top + paddingY.bottom;
 
     // Convert to screen pixels
-    let calculatedHeight = Math.round(totalHeight3D * pixelsPerUnit3D);
+    const calculatedHeight = Math.round(totalHeight3D * pixelsPerUnit3D);
 
     return {
       height: calculatedHeight,
@@ -150,7 +150,7 @@ const TechStack = () => {
 
   return (
     <div id="skills" className="flex-center section-padding relative z-10">
-      <div ref={containerRef} className="h-full w-full px-5 md:px-10">
+      <div ref={containerRef} className="size-full px-5 md:px-10">
         <TitleHeader
           title="How I Can Contribute & My Key Skills"
           sub="🤝 What I Bring to the Table"

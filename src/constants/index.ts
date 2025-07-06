@@ -11,6 +11,7 @@ import type {
   TechStackImg,
   Testimonial,
 } from "@/constants/types";
+import { getImagePath, getModelPath } from "@/lib/assets";
 
 const sectionConfigs: SectionConfigs = {
   navLinks: true,
@@ -77,7 +78,7 @@ const heroTitles: HeroTitle[] = [
   },
 ];
 
-const selfDescription: string =
+const selfDescription =
   "Hi, I'm Sidath — a passionate Senior Software Engineer with over 5 years of experience building full-stack web applications. I specialize in creating scalable, high-performance solutions using modern frameworks like React, Angular, Node.js. Whether architecting systems or mentoring teams, I focus on delivering clean, maintainable code that translates ideas into impactful digital experiences.";
 
 const counterItems: CounterItem[] = [
@@ -105,24 +106,24 @@ const counterItems: CounterItem[] = [
 
 const logoIconsList: LogoIcon[] = [
   {
-    imgPath: "/images/company/shopify_logo.png",
+    imgPath: getImagePath("company/shopify_logo.png"),
     name: "shopify_logo",
   },
 ];
 
 const abilities: Ability[] = [
   {
-    imgPath: "/images/icons/seo.png",
+    imgPath: getImagePath("icons/seo.png"),
     title: "Quality Focus",
     desc: "Delivering high-quality results while maintaining attention to every detail.",
   },
   {
-    imgPath: "/images/icons/chat.png",
+    imgPath: getImagePath("icons/chat.png"),
     title: "Reliable Communication",
     desc: "Keeping you updated at every step to ensure transparency and clarity.",
   },
   {
-    imgPath: "/images/icons/time.png",
+    imgPath: getImagePath("icons/time.png"),
     title: "On-Time Delivery",
     desc: "Making sure projects are completed on schedule, with quality & attention to detail.",
   },
@@ -131,23 +132,23 @@ const abilities: Ability[] = [
 const techStackImgs: TechStackImg[] = [
   {
     name: "React Developer",
-    imgPath: "/images/tech-logos/react.png",
+    imgPath: getImagePath("tech-logos/react.png"),
   },
   {
     name: "Python Developer",
-    imgPath: "/images/tech-logos/python.svg",
+    imgPath: getImagePath("tech-logos/python.svg"),
   },
   {
     name: "Backend Developer",
-    imgPath: "/images/tech-logos/node.png",
+    imgPath: getImagePath("tech-logos/node.png"),
   },
   {
     name: "Interactive Developer",
-    imgPath: "/images/tech-logos/three.png",
+    imgPath: getImagePath("tech-logos/three.png"),
   },
   {
     name: "Project Manager",
-    imgPath: "/images/tech-logos/git.svg",
+    imgPath: getImagePath("tech-logos/git.svg"),
   },
 ];
 
@@ -155,91 +156,91 @@ const techStackIcons: TechStackIcon[] = [
   {
     id: "REACT",
     name: "React",
-    modelPath: "/models/react.glb",
+    modelPath: getModelPath("react.glb"),
     scale: 1,
     rotation: [0, 0, 0],
   },
   {
     id: "NEXT",
     name: "Next.js",
-    modelPath: "/models/nextjs.glb",
+    modelPath: getModelPath("nextjs.glb"),
     scale: 0.165,
     rotation: [0, 0, 0],
   },
   {
     id: "ANGULAR",
     name: "Angular",
-    modelPath: "/models/angular.glb",
+    modelPath: getModelPath("angular.glb"),
     scale: 0.01,
     rotation: [0, 4.5, 0],
   },
   {
     id: "TAILWIND",
     name: "TailwindCSS",
-    modelPath: "/models/tailwindcss.glb",
+    modelPath: getModelPath("tailwindcss.glb"),
     scale: 0.1,
     rotation: [0, 0, 0],
   },
   {
     id: "BOOTSTRAP5",
     name: "Bootstrap",
-    modelPath: "/models/boostrap5.glb",
+    modelPath: getModelPath("boostrap5.glb"),
     scale: 0.14,
     rotation: [0, 0, 0],
   },
   {
     id: "NODE",
     name: "Node.js",
-    modelPath: "/models/node.glb",
+    modelPath: getModelPath("node.glb"),
     scale: 5,
     rotation: [0, -Math.PI / 2, 0],
   },
   {
     id: "TYPESCRIPT",
     name: "TypeScript",
-    modelPath: "/models/typescript.glb",
+    modelPath: getModelPath("typescript.glb"),
     scale: 0.15,
     rotation: [0, 0, 0],
   },
   {
     id: "SAILS",
     name: "Sails.js",
-    modelPath: "/models/sails.glb",
+    modelPath: getModelPath("sails.glb"),
     scale: 0.15,
     rotation: [0, 0, 0],
   },
   // {
   //   id: "PYTHON",
   //   name: "Python",
-  //   modelPath: "/models/python.glb",
+  //   modelPath: getModelPath("python.glb"),
   //   scale: 0.8,
   //   rotation: [0, 0, 0],
   // },
   {
     id: "D3",
     name: "D3.js",
-    modelPath: "/models/d3.glb",
+    modelPath: getModelPath("d3.glb"),
     scale: 0.125,
     rotation: [0, 0, 0],
   },
   {
     id: "THREE",
     name: "Three.js",
-    modelPath: "/models/three.glb",
+    modelPath: getModelPath("three.glb"),
     scale: 0.05,
     rotation: [0, 0, 0],
   },
   {
     id: "MONGO",
     name: "MongoDB",
-    modelPath: "/models/mongo.glb",
+    modelPath: getModelPath("mongo.glb"),
     scale: 0.2,
     rotation: [0, 0, 0],
   },
   {
     id: "MYSQL",
     name: "MySQL",
-    modelPath: "/models/mysql.glb",
+    modelPath: getModelPath("mysql.glb"),
     scale: 0.12,
     rotation: [0, Math.PI / 4, 0],
     position: [1.3, -0.75, 0],
@@ -247,21 +248,21 @@ const techStackIcons: TechStackIcon[] = [
   {
     id: "VCS",
     name: "Version Control",
-    modelPath: "/models/version_control.glb",
+    modelPath: getModelPath("version_control.glb"),
     scale: 0.05,
     rotation: [0, -Math.PI / 4, 0],
   },
   {
     id: "GITHUB",
     name: "GitHub",
-    modelPath: "/models/github.glb",
+    modelPath: getModelPath("github.glb"),
     scale: 0.15,
     rotation: [0, 0, 0],
   },
   {
     id: "GITLAB",
     name: "GitLab",
-    modelPath: "/models/gitlab.glb",
+    modelPath: getModelPath("gitlab.glb"),
     scale: 0.15,
     rotation: [0, 0, 0],
     position: [0, -0.5, 0],
@@ -272,8 +273,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Led front-end development initiatives across multiple high-value client projects, establishing architectural standards, and mentoring junior team members.",
-    imgPath: "/images/experience/simato.png",
-    logoPath: "/images/experience/appmaker.svg",
+    imgPath: getImagePath("experience/simato.png"),
+    logoPath: getImagePath("experience/appmaker.svg"),
     title: "Senior Software Engineer",
     company: "FocalId Technologies (Pvt.) Ltd.",
     date: "November 2024 - May 2025",
@@ -286,8 +287,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Collaborated with cross-functional teams to deliver responsive, high-performance frontend solutions while contributing to codebase improvements.",
-    imgPath: "/images/experience/simato.png",
-    logoPath: "/images/experience/appmaker.svg",
+    imgPath: getImagePath("experience/simato.png"),
+    logoPath: getImagePath("experience/appmaker.svg"),
     title: "Software Engineer",
     company: "FocalId Technologies (Pvt.) Ltd.",
     date: "June 2024 - November 2024",
@@ -301,8 +302,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Delivered full-stack solutions for client projects with a focus on scalable architecture and innovative features.",
-    imgPath: "/images/experience/simato.png",
-    logoPath: "/images/experience/appmaker.svg",
+    imgPath: getImagePath("experience/simato.png"),
+    logoPath: getImagePath("experience/appmaker.svg"),
     title: "Software Engineer",
     company: "Simato Solutions (Pvt.) Ltd.",
     date: "June 2022 - June 2024",
@@ -318,8 +319,8 @@ const expCards: ExpCard[] = [
   {
     review:
       "Extended due to exceptional performance. Supported development teams across multiple client projects.",
-    imgPath: "/images/experience/simato.png",
-    logoPath: "/images/experience/appmaker.svg",
+    imgPath: getImagePath("experience/simato.png"),
+    logoPath: getImagePath("experience/appmaker.svg"),
     title: "Software Engineer Intern",
     company: "Simato Solutions (Pvt.) Ltd.",
     date: "July 2020 - July 2021",
@@ -337,57 +338,57 @@ const testimonials: Testimonial[] = [
     mentions: "@estherhoward",
     review:
       "I can’t say enough good things about Sidath. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
   {
     name: "Wade Warren",
     mentions: "@wadewarren",
     review:
       "Working with Sidath was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
   {
     name: "Guy Hawkins",
     mentions: "@guyhawkins",
     review:
       "Collaborating with Sidath was an absolute pleasure. His professionalism, promptness, and dedication to delivering exceptional results were evident throughout our project. Sidath's enthusiasm for every facet of development truly stands out. If you're seeking to elevate your website and elevate your brand, Sidath is the ideal partner.",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
   {
     name: "Marvin McKinney",
     mentions: "@marvinmckinney",
     review:
       "Sidath was a pleasure to work with. He turned our outdated website into a fresh, intuitive platform that’s both modern and easy to navigate. Fantastic work overall.",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
   {
     name: "Floyd Miles",
     mentions: "@floydmiles",
     review:
       "Adrian’s expertise in web development is truly impressive. He delivered a robust and scalable solution for our e-commerce site, and our online sales have significantly increased since the launch. He’s a true professional!",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
   {
     name: "Albert Flores",
     mentions: "@albertflores",
     review:
       "Sidath was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend and backend dev are top-notch.",
-    imgPath: "/images/person/client1.png",
+    imgPath: getImagePath("person/client1.png"),
   },
 ];
 
 const socialImgs: SocialImg[] = [
   {
     name: "insta",
-    imgPath: "/images/social-media/insta.png",
+    imgPath: getImagePath("social-media/insta.png"),
   },
   {
     name: "fb",
-    imgPath: "/images/social-media/fb.png",
+    imgPath: getImagePath("social-media/fb.png"),
   },
   {
     name: "linkedin",
-    imgPath: "/images/social-media/linkedin.png",
+    imgPath: getImagePath("social-media/linkedin.png"),
   },
 ];
 

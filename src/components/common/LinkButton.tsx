@@ -1,3 +1,4 @@
+import { getImagePath } from "@/lib/assets";
 import { cn, generateUniqueId } from "@/lib/utils";
 
 type LinkButtonProps = {
@@ -33,7 +34,7 @@ const LinkButton = ({
         {showAnimatedCircle && <div className="bg-circle" />}
         <p className="text">{text}</p>
         <div className="arrow-wrapper">
-          <img src="/images/icons/arrow-down.svg" alt="arrow" />
+          <img src={getImagePath("icons/arrow-down.svg")} alt="arrow" />
         </div>
       </div>
     </a>

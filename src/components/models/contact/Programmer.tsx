@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
-import * as THREE from "three";
+import type * as THREE from "three";
 import { useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { SkeletonUtils } from "three-stdlib";
+import { getModelPath } from "@/lib/assets";
 
 type AnimationName = "WORK";
 
@@ -35,7 +35,7 @@ export function Programmer({
   ...props
 }: ProgrammerProps & JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group | null>(null);
-  const { scene, animations } = useGLTF("/models/programmer.glb");
+  const { scene, animations } = useGLTF(getModelPath("programmer.glb"));
   const clone = useMemo(() => SkeletonUtils.clone(scene), [scene]);
   const { nodes, materials } = useGraph(clone) as any;
   const { actions, mixer } = useAnimations(animations, group);
@@ -485,4 +485,4 @@ export function Programmer({
   );
 }
 
-useGLTF.preload("/models/programmer.glb");
+useGLTF.preload(getModelPath("programmer.glb"));

@@ -14,6 +14,7 @@ import gsap from "gsap";
 import { heroTitles, sectionConfigs, selfDescription } from "@/constants";
 import type { HeroTitle } from "@/constants/types";
 import { cn } from "@/lib/utils";
+import { getImagePath } from "@/lib/assets";
 
 const Hero = () => {
   const [api, setApi] = useState<CarouselApi | null>(null);
@@ -63,7 +64,7 @@ const Hero = () => {
   return (
     <section id="hero" className="relative overflow-hidden">
       <div className="absolute left-0 top-0 z-10">
-        <img src="/images/bg.png" alt="" />
+        <img src={getImagePath("bg.png")} alt="" />
       </div>
 
       <div className="hero-layout">
@@ -127,7 +128,7 @@ const Hero = () => {
                       className={cn(
                         "h-2 w-2 cursor-pointer rounded-full transition-all duration-300",
                         index === current - 1
-                          ? "bg-white scale-110"
+                          ? "scale-110 bg-white"
                           : "bg-white/40 hover:bg-white/60"
                       )}
                       aria-label={`Go to slide ${index + 1}`}

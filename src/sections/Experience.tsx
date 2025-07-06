@@ -95,7 +95,7 @@ const Experience = () => {
       id="experience"
       className="flex-center section-padding relative z-10 mt-20 md:mt-40 xl:px-0"
     >
-      <div className="h-full w-full px-5 md:px-20">
+      <div className="size-full px-5 md:px-20">
         <TitleHeader title="Professional Work Experience" sub="💼 My Career Overview" />
         <div className="relative mt-32">
           <div className="relative z-50 space-y-10 xl:space-y-32">

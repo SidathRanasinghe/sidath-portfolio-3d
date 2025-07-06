@@ -11,24 +11,14 @@ const RealisticSpaceScene = () => {
     <>
       {/* lighting */}
       <ambientLight intensity={0.02} />
-      <directionalLight 
-        position={[10, 100, 5]} 
-        intensity={2} 
-        color="#7209b7" 
-        castShadow 
-      />
-      <directionalLight 
-        position={[10, 100, 50]} 
-        intensity={2} 
-        color="#ffffff" 
-        castShadow 
-      />
-      
+      <directionalLight position={[10, 100, 5]} intensity={2} color="#7209b7" castShadow />
+      <directionalLight position={[10, 100, 50]} intensity={2} color="#ffffff" castShadow />
+
       {/* star variants */}
       <RealisticStars count={2500} />
       <BrightStars count={2500} />
       <DistantStars count={2500} />
-      
+
       {/* orbiting asteroids using 3D models */}
       <OrbitingAsteroid
         center={[0, 0, -52]}
@@ -50,10 +40,10 @@ const BgBanner = () => {
         style={{
           background: "radial-gradient(ellipse at center, #0d00a426 0%, #000000 50%, #000000 100%)",
         }}
-        gl={{ 
+        gl={{
           antialias: true,
           alpha: true,
-          powerPreference: "high-performance"
+          powerPreference: "high-performance",
         }}
         dpr={[1, 2]} // Device pixel ratio for better performance
       >

@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 
 import TitleHeader from "@/components/TitleHeader";
 import ContactExperience from "@/components/models/contact/ContactExperience";
+import { getImagePath } from "@/lib/assets";
 
 interface FormData {
   name: string;
@@ -84,7 +85,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="flex-center section-padding relative z-10">
-      <div className="h-full w-full px-5 md:px-10">
+      <div className="size-full px-5 md:px-10">
         <TitleHeader
           title="Get in Touch – Let's Connect"
           sub="💬 Have questions or ideas? Let's talk! 🚀"
@@ -153,7 +154,7 @@ const Contact = () => {
                     <div className="bg-circle" />
                     <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                     <div className="arrow-wrapper">
-                      <img src="/images/icons/arrow-down.svg" alt="arrow" />
+                      <img src={getImagePath("icons/arrow-down.svg")} alt="arrow" />
                     </div>
                   </div>
                 </button>
@@ -161,7 +162,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="relative min-h-96 xl:col-span-7">
-            <div className="!size-full h-full w-full rounded-xl hover:cursor-grab xl:rounded-none">
+            <div className="!size-full rounded-xl hover:cursor-grab xl:rounded-none">
               <ContactExperience />
             </div>
           </div>
