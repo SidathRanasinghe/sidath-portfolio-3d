@@ -1,14 +1,15 @@
 import { useGLTF } from "@react-three/drei";
 import { useEffect, useRef, type JSX } from "react";
+import { getImagePath, getModelPath } from "@/lib/assets";
 import * as THREE from "three";
 
 export function ComputerDesk(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/models/computer_desk.glb") as any;
+  const { nodes, materials } = useGLTF(getModelPath("/computer_desk.glb")) as any;
   const spotLightRef = useRef<THREE.SpotLight>(null);
   const screenRef = useRef<THREE.Mesh>(null);
 
   // Create texture and material for the monitor screen
-  const screenTexture = new THREE.TextureLoader().load("/images/vsCode.png");
+  const screenTexture = new THREE.TextureLoader().load(getImagePath("vsCode.png"));
 
   const screenMaterial = new THREE.MeshStandardMaterial({
     map: screenTexture, // Apply the VS Code image
@@ -206,4 +207,4 @@ export function ComputerDesk(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("/models/computer_desk.glb");
+useGLTF.preload(getModelPath("computer_desk.glb"));

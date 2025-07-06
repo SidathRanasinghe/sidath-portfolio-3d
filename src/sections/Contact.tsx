@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 
 import TitleHeader from "@/components/TitleHeader";
 import ContactExperience from "@/components/models/contact/ContactExperience";
+import { getImagePath } from "@/lib/assets";
 
 interface FormData {
   name: string;
@@ -153,7 +154,7 @@ const Contact = () => {
                     <div className="bg-circle" />
                     <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                     <div className="arrow-wrapper">
-                      <img src="/images/icons/arrow-down.svg" alt="arrow" />
+                      <img src={getImagePath("icons/arrow-down.svg")} alt="arrow" />
                     </div>
                   </div>
                 </button>

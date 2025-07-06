@@ -1,5 +1,6 @@
 import type { ExpCard, Testimonial } from "@/constants/types";
 import { useRef, type ReactNode, type MouseEvent } from "react";
+import { getImagePath } from "@/lib/assets";
 
 type GlowCardProps = {
   card: ExpCard | Testimonial;
@@ -44,7 +45,7 @@ const GlowCard = ({ card, index = 0, children }: GlowCardProps) => {
       <div className="glow" />
       <div className="mb-5 flex items-center gap-1">
         {Array.from({ length: 5 }, (_, i) => (
-          <img key={i} src="/images/icons/gold-star.png" alt="star" className="size-5" />
+          <img key={i} src={getImagePath("icons/gold-star.png")} alt="star" className="size-5" />
         ))}
       </div>
       <div className="mb-5">

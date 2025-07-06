@@ -1,7 +1,8 @@
 import { useGLTF } from "@react-three/drei";
+import { getModelPath } from "@/lib/assets";
 
 export function AsteroidSmall(props: any) {
-  const { nodes, materials } = useGLTF("/models/asteroid_small.glb");
+  const { nodes, materials } = useGLTF(getModelPath("asteroid_small.glb"));
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -13,4 +14,4 @@ export function AsteroidSmall(props: any) {
   );
 }
 
-useGLTF.preload("/models/asteroid_small.glb");
+useGLTF.preload(getModelPath("asteroid_small.glb"));
