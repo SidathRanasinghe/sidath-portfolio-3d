@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "@/components/TitleHeader";
@@ -11,41 +11,74 @@ interface FormData {
 }
 
 const Contact = () => {
-  const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [form, setForm] = useState<FormData>({
     name: "",
     email: "",
     message: "",
   });
+  const [status, setStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
+    // Clear status when user starts typing
+    if (status.type) {
+      setStatus({ type: null, message: "" });
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true);
+    setStatus({ type: null, message: "" });
 
     try {
-      if (!formRef.current) {
-        throw new Error("Form reference is null");
-      }
+      // Format current date and time as "12.35pm, 11.06.2025"
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "pm" : "am";
+      const displayHours = hours % 12 || 12;
 
-      await emailjs.sendForm(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID as string,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID as string,
-        formRef.current,
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY as string
+      const day = now.getDate().toString().padStart(2, "0");
+      const month = (now.getMonth() + 1).toString().padStart(2, "0");
+      const year = now.getFullYear();
+
+      const formattedTime = `${displayHours}.${minutes}${ampm}, ${day}.${month}.${year}`;
+
+      // Send email with form data and additional time parameter
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID as string,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string,
+        {
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          time: formattedTime,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
       );
 
-      // Reset form and stop loading
+      // Reset form and show success message
       setForm({ name: "", email: "", message: "" });
+      setStatus({
+        type: "success",
+        message:
+          "Thank you! Your message has been sent successfully. I'll get back to you soon! 🚀",
+      });
     } catch (error) {
-      console.error("EmailJS Error:", error); // Optional: show toast
+      console.error("EmailJS Error:", error);
+      setStatus({
+        type: "error",
+        message:
+          "Oops! Something went wrong. Please try again or contact me directly via email. 😔",
+      });
     } finally {
-      setLoading(false); // Always stop loading, even on error
+      setLoading(false);
     }
   };
 
@@ -59,7 +92,20 @@ const Contact = () => {
         <div className="grid-12-cols mt-16 xl:gap-0">
           <div className="xl:col-span-5">
             <div className="flex-center card-border rounded-xl p-10">
-              <form ref={formRef} onSubmit={handleSubmit} className="flex w-full flex-col gap-7">
+              <form onSubmit={handleSubmit} className="flex w-full flex-col gap-7">
+                {/* Status Message */}
+                {status.type && (
+                  <div
+                    className={`rounded-lg p-4 text-sm ${
+                      status.type === "success"
+                        ? "border border-green-200 bg-green-100 text-green-800"
+                        : "border border-red-200 bg-red-100 text-red-800"
+                    }`}
+                  >
+                    {status.message}
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="name">Your name</label>
                   <input
@@ -70,6 +116,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="What's your name?"
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -83,6 +130,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="What's your email address?"
                     required
+                    disabled={loading}
                   />
                 </div>
 
@@ -96,10 +144,11 @@ const Contact = () => {
                     placeholder="How can I help you?"
                     rows={5}
                     required
+                    disabled={loading}
                   />
                 </div>
 
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                   <div className="cta-button group">
                     <div className="bg-circle" />
                     <p className="text">{loading ? "Sending..." : "Send Message"}</p>
