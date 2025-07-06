@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { navLinks } from "@/constants";
+import { navLinks, sectionConfigs } from "@/constants";
 
 const NavBar = () => {
   // track if the user has scrolled down the page
@@ -24,22 +24,26 @@ const NavBar = () => {
   return (
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner">
-        <a href="#hero" className="logo">
-          Adrian JSM
-        </a>
+        <div className="flex h-12 w-fit items-center justify-center p-0 hover:translate-x-0.5 hover:scale-105">
+          <a href="#hero" className="logo flex size-full items-baseline justify-center">
+            <img src="/images/logos/sidath.io.2.png" alt="logo" className="size-full" />
+          </a>
+        </div>
 
-        <nav className="desktop">
-          <ul>
-            {navLinks.map(({ link, name }: { link: string; name: string }) => (
-              <li key={name} className="group">
-                <a href={link}>
-                  <span>{name}</span>
-                  <span className="underline" />
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {sectionConfigs.navLinks && (
+          <nav className="desktop">
+            <ul>
+              {navLinks.map(({ link, name }: { link: string; name: string }) => (
+                <li key={name} className="group">
+                  <a href={link}>
+                    <span>{name}</span>
+                    <span className="underline" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
 
         <a href="#contact" className="contact-btn group">
           <div className="inner">

@@ -6,23 +6,24 @@ import FeatureCards from "./sections/FeatureCards";
 import Hero from "./sections/Hero";
 import LogoShowcase from "./sections/LogoShowcase";
 import ShowcaseSection from "./sections/ShowcaseSection";
-import TechStack from "./sections/TechStack";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./sections/Footer";
+import { sectionConfigs } from "./constants";
+import TechStack from "./sections/TechStack";
 
 const App = () => {
   return (
     <>
       <BgBanner />
-      <div className="size-full overflow-auto z-[1]">
+      <div className="z-[1] size-full overflow-auto">
         <NavBar />
         <Hero />
-        <ShowcaseSection />
-        <LogoShowcase />
-        <FeatureCards />
-        <Experience />
-        <TechStack />
-        <Testimonials />
+        {sectionConfigs.projectsShowCase && <ShowcaseSection />}
+        {sectionConfigs.companiesLogoRow && <LogoShowcase />}
+        {sectionConfigs.abilities && <FeatureCards />}
+        {sectionConfigs.experience && <Experience />}
+        {(sectionConfigs.techStackIcons || sectionConfigs.techStackImgs) && <TechStack />}
+        {sectionConfigs.testimonials && <Testimonials />}
         <Contact />
         <Footer />
       </div>
@@ -31,4 +32,3 @@ const App = () => {
 };
 
 export default App;
-

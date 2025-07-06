@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import { expCards } from "@/constants";
 import TitleHeader from "@/components/TitleHeader";
-import GlowCard from "@/components/GlowCard";
+// import GlowCard from "@/components/GlowCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +50,7 @@ const Experience = () => {
       scrollTrigger: {
         trigger: ".timeline-wrapper",
         start: "top center",
-        end: "70% center",
+        end: "80% center", // "bottom center",
         // Update the animation as the user scrolls
         onUpdate: (self: ScrollTrigger) => {
           // Clip the timeline from bottom based on scroll progress
@@ -93,35 +93,42 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="relative flex-center z-10 md:mt-40 mt-20 section-padding xl:px-0"
+      className="flex-center section-padding relative z-10 mt-20 md:mt-40 xl:px-0"
     >
-      <div className="w-full h-full md:px-20 px-5">
+      <div className="h-full w-full px-5 md:px-20">
         <TitleHeader title="Professional Work Experience" sub="💼 My Career Overview" />
-        <div className="mt-32 relative">
-          <div className="relative z-50 xl:space-y-32 space-y-10">
-            {expCards.map(card => (
-              <div key={card.title} className="exp-card-wrapper">
-                <div className="xl:w-2/6">
+        <div className="relative mt-32">
+          <div className="relative z-50 space-y-10 xl:space-y-32">
+            {expCards.map((card, idx) => (
+              <div key={`${card.title}_${idx}`} className="exp-card-wrapper">
+                {/* <div className="xl:w-2/6">
                   <GlowCard card={card}>
                     <div>
                       <img src={card.imgPath} alt="exp-img" />
                     </div>
                   </GlowCard>
-                </div>
-                <div className="xl:w-4/6">
+                </div> */}
+                {/* <div className="xl:w-4/6"> */}
+                <div className="xl:w-full">
                   <div className="flex items-start">
-                    <div className="timeline-wrapper">
-                      <div className="gradient-line w-1 h-full" />
+                    {/* <div className="timeline-wrapper absolute top-0 xl:left-[35.5vw] md:left-10 left-5 h-full flex justify-center"> */}
+                    <div className="timeline-wrapper absolute left-[2.5rem] top-0 flex h-full justify-center">
+                      <div className="gradient-line h-full w-1" />
                     </div>
-                    <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
+                    <div className="expText relative z-20 flex gap-5 md:gap-10 xl:gap-20">
                       <div className="timeline-logo">
-                        <img src={card.logoPath} alt="logo" />
+                        <div className="flex items-center justify-center rounded-full p-4">
+                          <img src={card.logoPath} alt="logo" className="size-full" />
+                        </div>
                       </div>
                       <div>
-                        <h1 className="font-semibold text-3xl">{card.title}</h1>
-                        <p className="my-5 text-white-50">🗓️&nbsp;{card.date}</p>
-                        <p className="text-[#839CB5] italic">Responsibilities</p>
-                        <ul className="list-disc ms-5 mt-5 flex flex-col gap-5 text-white-50">
+                        <h1 className="text-3xl font-semibold">{card.title}</h1>
+                        <span className="flex items-center justify-start gap-4 font-bold text-gray-400">
+                          <p className="my-5 text-white-50">💼&nbsp;{card.company}</p>|
+                          <p className="my-5 text-white-50">🗓️&nbsp;{card.date}</p>
+                        </span>
+                        <p className="italic text-[#839CB5]">Responsibilities</p>
+                        <ul className="ms-5 mt-5 flex list-disc flex-col gap-5 text-white-50">
                           {card.responsibilities.map((responsibility: string, index: number) => (
                             <li key={index} className="text-lg">
                               {responsibility}

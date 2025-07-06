@@ -1,52 +1,57 @@
-type Configs = {
-  show?: boolean;
-  enabled?: boolean;
+export type SectionConfigs = {
+  navLinks: boolean;
+  heroTitles: boolean;
+  selfDescription: boolean;
+  myWorksCounter: boolean;
+  projectsShowCase: boolean;
+  companiesLogoRow: boolean;
+  abilities: boolean;
+  techStackImgs: boolean;
+  techStackIcons: boolean;
+  experience: boolean;
+  testimonials: boolean;
+  socialImgs: boolean;
 };
 
-export type HeroTitleWord = {
-  text: string;
-  imgPath: string;
-  configs: Configs;
+export type HeroTitle = {
+  lines: string[];
+  animatedTerms: string[];
 };
 
 export type NavLink = {
   name: string;
   link: string;
-  configs: Configs;
 };
 
 export type CounterItem = {
   value: number;
   suffix: string;
   label: string;
-  configs: Configs;
 };
 
 export type LogoIcon = {
   imgPath: string;
   name: string;
-  configs: Configs;
 };
 
 export type Ability = {
   imgPath: string;
   title: string;
   desc: string;
-  configs: Configs;
 };
 
 export type TechStackImg = {
   name: string;
   imgPath: string;
-  configs: Configs;
 };
 
 export type TechStackIcon = {
+  id: string;
   name: string;
   modelPath: string;
   scale: number;
-  rotation: number[];
-  configs: Configs;
+  rotation: [number, number, number];
+  position?: [number, number, number];
 };
 
 export type ExpCard = {
@@ -54,15 +59,9 @@ export type ExpCard = {
   imgPath: string;
   logoPath: string;
   title: string;
+  company: string;
   date: string;
   responsibilities: string[];
-  configs: Configs;
-};
-
-export type ExpLogo = {
-  name: string;
-  imgPath: string;
-  configs: Configs;
 };
 
 export type Testimonial = {
@@ -70,11 +69,9 @@ export type Testimonial = {
   mentions: string;
   review: string;
   imgPath: string;
-  configs: Configs;
 };
 
 export type SocialImg = {
   name: string;
   imgPath: string;
-  configs: Configs;
 };
