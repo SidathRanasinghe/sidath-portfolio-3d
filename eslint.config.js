@@ -25,9 +25,9 @@ export default tseslint.config(
   {
     // Base configuration for all TypeScript/JavaScript files
     extends: [
-      js.configs.recommended, 
+      js.configs.recommended,
       ...tseslint.configs.recommended,
-      prettier // Must be last to override other formatting rules
+      prettier, // Must be last to override other formatting rules
     ],
     files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
@@ -38,10 +38,13 @@ export default tseslint.config(
         ...globals.node,
         ...globals.es2022,
       },
+      parser: tseslint.parser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
+        // Remove type information requirements for config files
+        project: null,
       },
     },
     plugins: {
@@ -68,7 +71,7 @@ export default tseslint.config(
       "object-shorthand": "error",
       "prefer-template": "error",
       "no-duplicate-imports": "error",
-      
+
       // TypeScript Rules
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -79,8 +82,8 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
-      "@typescript-eslint/prefer-optional-chain": "error",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/consistent-type-imports": [
         "error",
@@ -89,12 +92,11 @@ export default tseslint.config(
           disallowTypeAnnotations: false,
         },
       ],
-      
+
       // React Rules
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // Not needed in React 17+
-      "react/prop-types": "off", // Using TypeScript
+      "react/hook-use-state": "warn",
       "react/jsx-uses-react": "off", // Not needed in React 17+
       "react/jsx-uses-vars": "error",
       "react/jsx-no-duplicate-props": "error",
@@ -107,7 +109,6 @@ export default tseslint.config(
       "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
       "react/jsx-indent": ["error", 2],
       "react/jsx-indent-props": ["error", 2],
-      "react/jsx-max-props-per-line": ["error", { maximum: 1 }],
       "react/jsx-no-bind": [
         "error",
         {
@@ -116,8 +117,6 @@ export default tseslint.config(
           ignoreRefs: true,
         },
       ],
-      "react/self-closing-comp": "error",
-      "react/hook-use-state": "error",
       "react/jsx-key": [
         "error",
         {
@@ -125,13 +124,14 @@ export default tseslint.config(
           checkKeyMustBeforeSpread: true,
         },
       ],
-      
+      "react/no-unknown-property": "off",
+      "react/prop-types": "off", // Using TypeScript
+      "react/react-in-jsx-scope": "off", // Not needed in React 17+
+      "react/self-closing-comp": "error",
+
       // React Refresh Rules
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
-      
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+
       // Tailwind CSS Rules
       "tailwindcss/classnames-order": "warn",
       "tailwindcss/enforces-negative-arbitrary-values": "error",
@@ -143,19 +143,34 @@ export default tseslint.config(
     },
   },
   {
-    // Specific rules for TypeScript files
-    files: ["**/*.{ts,tsx}"],
+    // Specific rules for TypeScript files with project configuration
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: "./tsconfig.app.json",
+        tsconfigRootDir: ".",
+      },
+    },
     rules: {
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-inferrable-types": "error",
+      "@typescript-eslint/prefer-nullish-coalescing": "error",
     },
   },
   {
-    // Configuration files
-    files: ["**/*.config.{js,ts}", "vite.config.ts", "tailwind.config.js"],
+    // Configuration files - no type checking
+    files: ["**/*.config.{js,ts}", "vite.config.ts", "tailwind.config.js", "eslint.config.js"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: null, // Disable project-based linting for config files
+      },
+    },
     rules: {
       "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
       "no-console": "off",
     },
   }

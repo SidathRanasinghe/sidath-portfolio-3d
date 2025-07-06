@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { navLinks, sectionConfigs } from "@/constants";
+import { getImagePath } from "@/lib/assets";
 
 const NavBar = () => {
   // track if the user has scrolled down the page
@@ -26,7 +27,7 @@ const NavBar = () => {
       <div className="inner">
         <div className="flex h-12 w-fit items-center justify-center p-0 hover:translate-x-0.5 hover:scale-105">
           <a href="#hero" className="logo flex size-full items-baseline justify-center">
-            <img src="/images/logos/sidath.io.2.png" alt="logo" className="size-full" />
+            <img src={getImagePath("logos/sidath.io.2.png")} alt="logo" className="size-full" />
           </a>
         </div>
 
