@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { useRef, useCallback, type RefObject } from "react";
+import { useEffect, useRef, useCallback, type RefObject } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { useEffect } from "react";
 import gsap from "gsap";
 
 const AutoRotationController = ({

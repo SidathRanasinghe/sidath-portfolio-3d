@@ -127,7 +127,7 @@ const Hero = () => {
                       className={cn(
                         "h-2 w-2 cursor-pointer rounded-full transition-all duration-300",
                         index === current - 1
-                          ? "bg-white scale-110"
+                          ? "scale-110 bg-white"
                           : "bg-white/40 hover:bg-white/60"
                       )}
                       aria-label={`Go to slide ${index + 1}`}

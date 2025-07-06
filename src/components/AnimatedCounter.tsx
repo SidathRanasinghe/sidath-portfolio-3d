@@ -55,10 +55,10 @@ const AnimatedCounter = () => {
             }}
             className="flex flex-col justify-center rounded-lg bg-zinc-900 p-10"
           >
-            <div className="counter-number text-white-50 mb-2 text-5xl font-bold">
+            <div className="counter-number mb-2 text-5xl font-bold text-white-50">
               0{item.suffix}
             </div>
-            <div className="text-white-50 text-lg">{item.label}</div>
+            <div className="text-lg text-white-50">{item.label}</div>
           </div>
         ))}
       </div>

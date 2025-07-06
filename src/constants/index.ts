@@ -77,7 +77,7 @@ const heroTitles: HeroTitle[] = [
   },
 ];
 
-const selfDescription: string =
+const selfDescription =
   "Hi, I'm Sidath — a passionate Senior Software Engineer with over 5 years of experience building full-stack web applications. I specialize in creating scalable, high-performance solutions using modern frameworks like React, Angular, Node.js. Whether architecting systems or mentoring teams, I focus on delivering clean, maintainable code that translates ideas into impactful digital experiences.";
 
 const counterItems: CounterItem[] = [

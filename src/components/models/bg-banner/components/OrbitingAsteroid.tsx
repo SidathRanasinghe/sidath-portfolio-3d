@@ -1,7 +1,6 @@
 import { useFrame } from "@react-three/fiber";
-import type React from "react";
-import { useRef, useState } from "react";
-import * as THREE from "three";
+import React from "react";
+import type * as THREE from "three";
 
 const OrbitingAsteroid = ({
   center,
@@ -22,9 +21,9 @@ const OrbitingAsteroid = ({
   followingLight?: { color: string; intensity: number };
   subtleFillLight?: { color: string; intensity: number };
 }) => {
-  const ref = useRef<THREE.Group>(null);
-  const lightRef = useRef<THREE.PointLight>(null);
-  const [angle, setAngle] = useState(Math.random() * Math.PI * 10);
+  const ref = React.useRef<THREE.Group>(null);
+  const lightRef = React.useRef<THREE.PointLight>(null);
+  const [angle, setAngle] = React.useState(Math.random() * Math.PI * 10);
 
   useFrame(() => {
     if (!ref.current) return;
@@ -65,17 +64,17 @@ const OrbitingAsteroid = ({
       {/* Point light that follows the asteroid for additional illumination */}
       <pointLight
         ref={lightRef}
-        intensity={followingLight?.intensity || 100}
+        intensity={followingLight?.intensity ?? 100}
         distance={30}
         decay={2}
-        color={followingLight?.color || "#ffffff"}
+        color={followingLight?.color ?? "#ffffff"}
         castShadow
       />
 
       {/* Ambient light for subtle fill lighting */}
       <ambientLight
-        intensity={subtleFillLight?.intensity || 1}
-        color={subtleFillLight?.color || "#4a90e2"}
+        intensity={subtleFillLight?.intensity ?? 1}
+        color={subtleFillLight?.color ?? "#4a90e2"}
       />
 
       {/* The asteroid component */}

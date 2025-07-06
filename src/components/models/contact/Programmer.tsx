@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import * as THREE from "three";
+import type * as THREE from "three";
 import { useEffect, useMemo, useRef, useState, type JSX } from "react";
 import { useGraph } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";

@@ -83,7 +83,7 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/prefer-nullish-coalescing": "off",
-      "@typescript-eslint/prefer-optional-chain": "error",
+      "@typescript-eslint/prefer-optional-chain": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/consistent-type-imports": [
         "error",
@@ -96,8 +96,7 @@ export default tseslint.config(
       // React Rules
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // Not needed in React 17+
-      "react/prop-types": "off", // Using TypeScript
+      "react/hook-use-state": "warn",
       "react/jsx-uses-react": "off", // Not needed in React 17+
       "react/jsx-uses-vars": "error",
       "react/jsx-no-duplicate-props": "error",
@@ -110,7 +109,6 @@ export default tseslint.config(
       "react/jsx-first-prop-new-line": ["error", "multiline-multiprop"],
       "react/jsx-indent": ["error", 2],
       "react/jsx-indent-props": ["error", 2],
-      "react/jsx-max-props-per-line": ["error", { maximum: 1 }],
       "react/jsx-no-bind": [
         "error",
         {
@@ -119,8 +117,6 @@ export default tseslint.config(
           ignoreRefs: true,
         },
       ],
-      "react/self-closing-comp": "error",
-      "react/hook-use-state": "error",
       "react/jsx-key": [
         "error",
         {
@@ -128,6 +124,10 @@ export default tseslint.config(
           checkKeyMustBeforeSpread: true,
         },
       ],
+      "react/no-unknown-property": "off",
+      "react/prop-types": "off", // Using TypeScript
+      "react/react-in-jsx-scope": "off", // Not needed in React 17+
+      "react/self-closing-comp": "error",
 
       // React Refresh Rules
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],

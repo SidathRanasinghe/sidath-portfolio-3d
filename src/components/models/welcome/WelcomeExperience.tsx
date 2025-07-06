@@ -1,10 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { useMediaQuery } from "react-responsive";
 import { OrbitControls } from "@react-three/drei";
-import { useRef, useMemo } from "react";
-import { useState } from "react";
+import { useRef, useMemo, useState } from "react";
 import { ComputerDesk } from "./ComputerDesk";
-import * as THREE from "three";
+import type * as THREE from "three";
 import AutoRotationController from "./AutoRotationController";
 import LightingController from "./LightingController";
 

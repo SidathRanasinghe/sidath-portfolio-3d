@@ -110,9 +110,7 @@ const Model = ({ model, position, virtualBoxHeight, virtualBoxWidth, breakpoint 
       // Ensure all meshes have proper materials
       scene.traverse(child => {
         if (child instanceof THREE.Mesh) {
-          if (!child.material) {
-            child.material = new THREE.MeshStandardMaterial({ color: "#ffffff" });
-          }
+          child.material ??= new THREE.MeshStandardMaterial({ color: "#ffffff" });
           child.visible = true;
           child.castShadow = true;
           child.receiveShadow = true;
@@ -176,7 +174,7 @@ const Model = ({ model, position, virtualBoxHeight, virtualBoxWidth, breakpoint 
     const textSize = textSizes[breakpoint as keyof typeof textSizes] || 0.56;
 
     let modelPos: [number, number, number] = [0, 0, 0];
-    let textPos: [number, number, number] = [0, -virtualBoxHeight * 0.7, 0];
+    const textPos: [number, number, number] = [0, -virtualBoxHeight * 0.7, 0];
 
     if (modelBounds && modelLoaded) {
       const scaledBounds = modelBounds.clone();
