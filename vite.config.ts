@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import { fileURLToPath, URL } from "node:url";
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const isProduction = mode === "production";
   const isDevelopment = mode === "development";
 
