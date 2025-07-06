@@ -25,9 +25,9 @@ export default tseslint.config(
   {
     // Base configuration for all TypeScript/JavaScript files
     extends: [
-      js.configs.recommended, 
+      js.configs.recommended,
       ...tseslint.configs.recommended,
-      prettier // Must be last to override other formatting rules
+      prettier, // Must be last to override other formatting rules
     ],
     files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
@@ -38,10 +38,13 @@ export default tseslint.config(
         ...globals.node,
         ...globals.es2022,
       },
+      parser: tseslint.parser,
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
+        // Remove type information requirements for config files
+        project: null,
       },
     },
     plugins: {
@@ -68,7 +71,7 @@ export default tseslint.config(
       "object-shorthand": "error",
       "prefer-template": "error",
       "no-duplicate-imports": "error",
-      
+
       // TypeScript Rules
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -79,7 +82,7 @@ export default tseslint.config(
         },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/prefer-optional-chain": "error",
       "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/consistent-type-imports": [
@@ -89,7 +92,7 @@ export default tseslint.config(
           disallowTypeAnnotations: false,
         },
       ],
-      
+
       // React Rules
       ...react.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
@@ -125,13 +128,10 @@ export default tseslint.config(
           checkKeyMustBeforeSpread: true,
         },
       ],
-      
+
       // React Refresh Rules
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
-      
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+
       // Tailwind CSS Rules
       "tailwindcss/classnames-order": "warn",
       "tailwindcss/enforces-negative-arbitrary-values": "error",
@@ -143,19 +143,34 @@ export default tseslint.config(
     },
   },
   {
-    // Specific rules for TypeScript files
-    files: ["**/*.{ts,tsx}"],
+    // Specific rules for TypeScript files with project configuration
+    files: ["src/**/*.{ts,tsx}"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: "./tsconfig.app.json",
+        tsconfigRootDir: ".",
+      },
+    },
     rules: {
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-inferrable-types": "error",
+      "@typescript-eslint/prefer-nullish-coalescing": "error",
     },
   },
   {
-    // Configuration files
-    files: ["**/*.config.{js,ts}", "vite.config.ts", "tailwind.config.js"],
+    // Configuration files - no type checking
+    files: ["**/*.config.{js,ts}", "vite.config.ts", "tailwind.config.js", "eslint.config.js"],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: null, // Disable project-based linting for config files
+      },
+    },
     rules: {
       "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
       "no-console": "off",
     },
   }
