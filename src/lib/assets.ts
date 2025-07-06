@@ -98,4 +98,3 @@ export const preloadAsset = (path: string): Promise<void> => {
 export const preloadAssets = (paths: string[]): Promise<void[]> => {
   return Promise.all(paths.map(preloadAsset));
 };
-
