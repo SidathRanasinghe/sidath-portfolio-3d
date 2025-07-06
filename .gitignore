@@ -21,7 +21,7 @@ node_modules
 dist
 dist-ssr
 *.local
-package-lock.json
+# package-lock.json # removed from ignoring for automated deployment flow of github pages
 
 # Editor directories and files
 .vscode/*
