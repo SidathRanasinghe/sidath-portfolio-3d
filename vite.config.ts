@@ -6,6 +6,8 @@ import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   plugins: [react()],
+  // Base URL for GitHub Pages
+  base: "/sidath-portfolio-3d/", // Repository name
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
@@ -18,19 +20,14 @@ export default defineConfig({
     extensions: [".js", ".ts", ".jsx", ".tsx", ".json"],
   },
   optimizeDeps: {
-    include: [
-      "@radix-ui/react-slot",
-      "three",
-      "@react-three/fiber",
-      "@react-three/drei"
-    ],
+    include: ["@radix-ui/react-slot", "three", "@react-three/fiber", "@react-three/drei"],
   },
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          three: ['three'],
-          'react-three': ['@react-three/fiber', '@react-three/drei'],
+          three: ["three"],
+          "react-three": ["@react-three/fiber", "@react-three/drei"],
         },
       },
     },
