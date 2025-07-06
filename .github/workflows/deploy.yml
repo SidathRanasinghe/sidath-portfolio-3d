@@ -36,7 +36,8 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci # use only if you have pushed the latest package-lock.json file into git
+        # run: npm install # use if you haven't pushed the latest package-lock.json file into git
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
