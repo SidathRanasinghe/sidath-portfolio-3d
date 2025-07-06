@@ -17,8 +17,15 @@ if [ "$current_branch" != "master" ]; then
         git checkout master
         git pull origin master
     else
-        echo "❌ Deployment cancelled. Please switch to master branch first."
-        exit 1
+        echo "❌ Proceeding with deployment from current branch: $current_branch"
+        echo "⚠️  Note: This may deploy unstable code. Are you sure? (y/n)"
+        read -r confirm_response
+        if [[ "$confirm_response" =~ ^[Yy]$ ]]; then
+            echo "✅ Continuing deployment from branch: $current_branch"
+        else
+            echo "❌ Deployment cancelled."
+            exit 1
+        fi
     fi
 fi
 
@@ -29,9 +36,10 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 
-# Pull latest changes
-echo "📥 Pulling latest changes..."
-git pull origin master
+# Pull latest changes (from current branch)
+echo "📥 Pulling latest changes from current branch..."
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+git pull origin $current_branch
 
 # Run tests and linting
 echo "🔍 Running linter..."
@@ -44,8 +52,8 @@ npm run type-check
 echo "🏗️  Building project..."
 npm run build
 
-echo "🚀 Deploying to GitHub Pages..."
+echo "🚀 Deploying to GitHub Pages from branch: $current_branch"
 npm run deploy
 
 echo "✅ Deployment completed successfully!"
-echo "Your site will be available at: https://YOUR_USERNAME.github.io/portfolio_3d/"
+echo "Your site will be available at: https://sidathranasinghe.github.io/sidath-portfolio-3d/"
